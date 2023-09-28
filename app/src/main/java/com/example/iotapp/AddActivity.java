@@ -100,7 +100,7 @@ public class AddActivity extends AppCompatActivity {
 
                     User user = new User();
                     user.setId(userObject.getInt("id"));
-                    user.setUserName(userObject.getString("name")+" "+userObject.getString("lastname"));
+                    user.setUserName(userObject.getString("name"));
                     user.setPhoto(userObject.getString("photo"));
 
                     Hub hub = new Hub();
@@ -108,7 +108,6 @@ public class AddActivity extends AppCompatActivity {
                     hub.setId(postObject.getInt("id"));
                     hub.setMAC(postObject.getString("mac"));
                     hub.setDate(postObject.getString("created_at"));
-
 
                     Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
                     finish();
