@@ -1,7 +1,5 @@
 package com.example.iotapp;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +14,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,8 +35,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserInfoActivity extends AppCompatActivity {
 
-    private TextInputLayout layoutName,layoutLastname;
-    private TextInputEditText txtName,txtLastname;
+    private TextInputLayout layoutName;
+    private TextInputEditText txtName;
     private TextView txtSelectPhoto;
     private Button btnContinue;
     private CircleImageView circleImageView;
@@ -115,7 +112,6 @@ public class UserInfoActivity extends AppCompatActivity {
         dialog.setMessage("Saving");
         dialog.show();
         String name = txtName.getText().toString().trim();
-        String lastname = txtLastname.getText().toString().trim();
 
         StringRequest request = new StringRequest(Request.Method.POST,Constant.SAVE_USER_INFO,response->{
 
@@ -124,10 +120,9 @@ public class UserInfoActivity extends AppCompatActivity {
                 if (object.getBoolean("success")){
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("photo",object.getString("photo"));
+                    editor.putString("name", object.getString("name"));
                     editor.apply();
-//                    startActivity(new Intent(UserInfoActivity.this,HomeActivity.class));
-//                    finish();
-                    startActivity(new Intent(UserInfoActivity.this,OnBoardActivity.class));
+                    startActivity(new Intent(UserInfoActivity.this,HomeActivity.class));
                     finish();
                 }
             } catch (JSONException e) {
