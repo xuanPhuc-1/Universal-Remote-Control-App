@@ -46,12 +46,17 @@
             android:padding="16dp"
             android:layout_marginTop="6dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imgAddHub"
-                android:layout_marginBottom="16dp"/>
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"/>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -61,7 +66,7 @@
                 android:textColor="@color/colorPrimary"
                 android:gravity="center_horizontal"
                 android:onClick="changePhoto"
-                android:fontFamily="@font/montserrat"/>
+                android:fontFamily="@font/montserrat_bold"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -75,6 +80,33 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/txtMacAddress"
                     android:hint="MAC Address"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="text"
+                    android:textSize="15sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set location"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/txtLayoutLocation"
+                android:layout_marginBottom="6dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtLocation"
+                    android:hint="Location"
                     android:fontFamily="@font/montserrat"
                     android:inputType="text"
                     android:textSize="15sp"/>

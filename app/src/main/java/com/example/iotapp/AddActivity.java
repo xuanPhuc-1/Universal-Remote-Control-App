@@ -17,9 +17,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,16 +39,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AddActivity extends AppCompatActivity {
     private Button btnAddHub;
-    private ImageView imgAddHub;
+    private CircleImageView imgAddHub;
 
     private Button btnLogout;
-    private EditText txtMacAddress;
+    private EditText txtMacAddress, txtLocation;
     private Bitmap bitmap = null;
     private static final  int GALLERY_CHANGE_POST = 3;
     private ProgressDialog dialog;
     private SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,9 @@ public class AddActivity extends AppCompatActivity {
         imgAddHub = findViewById(R.id.imgAddHub);
         btnLogout = findViewById(R.id.btnLogout);
         txtMacAddress = findViewById(R.id.txtMacAddress);
+        txtLocation = findViewById(R.id.txtLocation);
+
+
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
 
@@ -83,8 +91,10 @@ public class AddActivity extends AppCompatActivity {
             //validate fields first
             logout();
         });
-
     }
+
+            
+        
 
     private void post(){
         dialog.setMessage("Adding");
@@ -95,8 +105,10 @@ public class AddActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
-                    JSONObject postObject = object.getJSONObject("hub");
-                    JSONObject userObject = postObject.getJSONObject("user");
+
+                    JSONObject hubObject = object.getJSONObject("hub");
+                    JSONObject userObject = object.getJSONObject("user");
+                    JSONObject locationObject = object.getJSONObject("location");
 
                     User user = new User();
                     user.setId(userObject.getInt("id"));
@@ -105,14 +117,17 @@ public class AddActivity extends AppCompatActivity {
 
                     Hub hub = new Hub();
                     hub.setUser(user);
-                    hub.setId(postObject.getInt("id"));
-                    hub.setMAC(postObject.getString("mac"));
-                    hub.setDate(postObject.getString("created_at"));
+                    hub.setId(hubObject.getInt("id"));
+                    hub.setMAC(hubObject.getString("mac"));
+                    hub.setDate(hubObject.getString("created_at"));
+
+                    Location location = new Location();
+                    location.setUser(user);
+                    location.setId(locationObject.getInt("id"));
+                    location.setName(locationObject.getString("name"));
 
                     Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
                     finish();
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -141,6 +156,7 @@ public class AddActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("mac",txtMacAddress.getText().toString().trim());
+                map.put("location_name",txtLocation.getText().toString().trim());
                 map.put("photo",bitmapToString(bitmap));
                 return map;
             }

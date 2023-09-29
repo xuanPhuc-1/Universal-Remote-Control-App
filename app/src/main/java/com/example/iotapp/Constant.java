@@ -10,4 +10,6 @@ public class Constant {
 
     public static final String ADD_HUB = HOME + "/hubs/pick";
 
+    public static final String PICK_LOCATION = HOME + "/locations";
+
 }
