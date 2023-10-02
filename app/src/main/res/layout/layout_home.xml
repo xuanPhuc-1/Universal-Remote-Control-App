@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbarHome"
+
         android:elevation="0dp"
         android:theme="@style/AppTheme.BottomAppbar"
         app:title=" ">
