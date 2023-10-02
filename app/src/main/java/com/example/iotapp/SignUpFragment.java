@@ -1,6 +1,7 @@
 package com.example.iotapp;
 
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.iotapp.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,7 +34,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import com.example.iotapp.Constant;
+import com.example.iotapp.SignInFragment;
+import com.example.iotapp.AuthActivity;
+import com.example.iotapp.UserInfoActivity;
 public class SignUpFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail,layoutPassword,layoutConfirm;
@@ -155,6 +164,57 @@ public class SignUpFragment extends Fragment {
 
 
     private void register(){
+        dialog.setMessage("Registering");
+        dialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.RESGISTER, response -> {
+
+            //we get response if connection success
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject user = object.getJSONObject("user");
+                    //make shared preference user
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = userPref.edit();
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("name", user.getString("name"));
+                    editor.putInt("id", user.getInt("id"));
+                    editor.putString("photo", user.getString("photo"));
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+                    //if success
+
+                    Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(((AuthActivity) getContext()), UserInfoActivity.class));
+                    ((AuthActivity) getContext()).finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            dialog.dismiss();
+
+        },error -> {
+            // error if connection not success
+            error.printStackTrace();
+            dialog.dismiss();
+        }){
+
+            // add parameters
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("email",txtEmail.getText().toString().trim());
+                map.put("password",txtPassword.getText().toString());
+                return map;
+            }
+        };
+
+        //add this request to requestqueue
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
 
