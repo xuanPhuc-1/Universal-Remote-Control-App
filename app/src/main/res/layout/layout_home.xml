@@ -3,44 +3,186 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbarHome"
-        android:elevation="1dp"
+
+        android:elevation="0dp"
         android:theme="@style/AppTheme.BottomAppbar"
         app:title=" ">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IOT App"
+            android:text="Hello"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="20sp"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            android:layout_marginLeft="30dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/txtUserName"
+            ></TextView>
+        <ImageButton
+            android:layout_width="35dp"
+            android:src="@drawable/setting"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="250dp"
+            android:onClick="cancelPost"
+            android:layout_height="35dp"
+            android:scaleType="fitXY"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape"
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Location"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="15dp"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/txtLocation"
+                android:layout_marginLeft="25dp"
+                android:text="Ha Noi"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/txtTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="180dp"
+                android:fontFamily="@font/montserrat"
+                android:text="30"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:textSize="15dp"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/txtHumid"
+                android:layout_marginLeft="180dp"
+                android:text="40"
+                >
+            </TextView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/celcius"></ImageView>
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/swipeHome"
-        android:layout_height="match_parent">
+        android:layout_height="569dp"
 
-        <androidx.recyclerview.widget.RecyclerView
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:id="@+id/frameHomeContainer"
             android:layout_width="match_parent"
-            android:id="@+id/recyclerHome"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent"></FrameLayout>
 
 
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        >
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/coordinator_view"
+            android:fitsSystemWindows="false"
+            android:clickable="false"
+            android:focusable="false">
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottom_app"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:theme="@style/AppTheme.BottomAppbar"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:fabAlignmentMode="center"
+                app:fabCradleRoundedCornerRadius="16dp"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottom_nav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:outlineAmbientShadowColor="@android:color/transparent"
+                    android:outlineSpotShadowColor="@android:color/transparent"
+                    app:labelVisibilityMode="unlabeled"
+                    app:menu="@menu/menu_main"
+                    android:layout_marginBottom="20dp"/>
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
 
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:id="@+id/fab"
+                android:backgroundTint="@color/colorBlack"
+                app:rippleColor="@color/colorWhite"
+                android:src="@drawable/img_1"
+                app:tint="@color/colorWhite"
+                app:layout_anchor="@id/bottom_app"
+                android:layout_height="wrap_content" />
 
 
-
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
 
 
 
