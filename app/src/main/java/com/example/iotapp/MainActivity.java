@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.iotapp.AuthActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean isLoggedIn = userPref.getBoolean("isLoggedIn",false);
 
                 if (isLoggedIn){
-                    //startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                    startActivity(new Intent(MainActivity.this,OnBoardActivity.class));
                     finish();
                 }
 
@@ -56,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             //start Auth Activity
-            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-            //startActivity(new Intent(MainActivity.this,OnBoardActivity.class));
+            startActivity(new Intent(MainActivity.this,AuthActivity.class));
             finish();
         }
     }
