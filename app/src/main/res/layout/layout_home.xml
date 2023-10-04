@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="180dp"
                 android:fontFamily="@font/montserrat"
-                android:text="30"
+                android:text="30\u2103"
                 android:textColor="@color/colorWhite"
                 android:textSize="30sp" />
 
@@ -100,7 +100,7 @@
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txtHumid"
                 android:layout_marginLeft="180dp"
-                android:text="40"
+                android:text="40\u0025"
                 >
             </TextView>
 
