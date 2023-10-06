@@ -121,10 +121,40 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <FrameLayout
-            android:id="@+id/frameHomeContainer"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- FrameLayout để tạo hình vuông ở bên trái (1/4 của ScrollView) -->
+                <FrameLayout
+                    android:id="@+id/squareFrame"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <!-- Đây là SwitchCompat bạn muốn thêm -->
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/yourSwitchId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textOff="off"
+                        android:textOn="on"
+                        android:thumb="@drawable/thumb"
+                        app:showText="true"
+                        app:track="@drawable/track" />
+
+                </FrameLayout>
+
+                <!-- Thêm các thành phần khác trong ScrollView bên phải của squareFrame -->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
 
     </RelativeLayout>
