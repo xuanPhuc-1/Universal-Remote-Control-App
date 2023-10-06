@@ -132,7 +132,6 @@ public class SignInFragment extends Fragment {
 
 
     private void login (){
-        dialog.setMessage("Logging in");
         dialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.LOGIN, response -> {
             //we get response if connection success
@@ -153,7 +152,7 @@ public class SignInFragment extends Fragment {
 
                     startActivity(new Intent(((AuthActivity)getContext()), HomeActivity.class));
                     ((AuthActivity) getContext()).finish();
-                    Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
                 } else {
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
