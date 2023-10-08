@@ -69,7 +69,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="15dp"
                 android:textColor="@color/colorWhite"
-                android:id="@+id/txtLocation"
+                android:id="@+id/txtLocationTop"
                 android:layout_marginLeft="25dp"
                 android:text="Ha Noi"
                 >
@@ -124,7 +124,18 @@
         <FrameLayout
             android:id="@+id/frameHomeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:id="@+id/txtLocation"
+                android:layout_marginLeft="25dp"
+                >
+            </TextView>
+        </FrameLayout>
 
 
     </RelativeLayout>

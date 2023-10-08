@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,10 +36,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity {
+    public ArrayList<String> locationNames = new ArrayList<>();
 
     private FragmentManager fragmentManager;
     private FloatingActionButton fab;
@@ -48,6 +53,10 @@ public class HomeActivity extends AppCompatActivity {
     private TextView currentUserName;
     private float currentTemp;
     private float currentHumid;
+
+    private TextView userLocation;
+    private SharedPreferences preferences;
+    private ProgressDialog dialog;
 
 
     // set home activity làm fragment chính
@@ -61,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void init() {
+        preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.bottom_nav);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
@@ -68,7 +78,8 @@ public class HomeActivity extends AppCompatActivity {
             i.setType("image/*");
             startActivityForResult(i, GALLERY_ADD_POST);
         });
-        currentLocation = findViewById(R.id.txtLocation);
+        userLocation = findViewById(R.id.txtLocation);
+
         getUserLocation();
     }
 
@@ -85,57 +96,57 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void getUserLocation() {
-//        requestQueue = Volley.newRequestQueue(this);
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Constant.PICK_LOCATION, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("locations");
-//                            JSONObject jsonObject = jsonArray.getJSONObject(1);
-//                            String nameLocation = jsonObject.getString("name");
-//                            currentLocation.setText(nameLocation);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//                currentLocation.setText("Error input location");
-//            }
-//        });
-//        requestQueue.add(request);
-//    }
+        RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.PICK_LOCATION, response -> {
-            //we get response if connection success
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.PICK_LOCATION, response ->
+        {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    JSONObject user = object.getJSONObject("locations");
-                    //make shared preference user
-                    SharedPreferences userPref = getSharedPreferences("locations", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("name", user.getString("name"));
-                    editor.apply();
-                    String nameLocation = user.getString("name");
-                    currentLocation.setText(nameLocation);
+                    JSONArray locationsArray = object.getJSONArray("locations");
 
-                    //if success
-                    Toast.makeText(this, "Get info successed", Toast.LENGTH_SHORT).show();
+                    // Lặp qua tất cả các phần tử trong mảng "locations"
+                    for (int i = 0; i < locationsArray.length(); i++) {
+                        JSONObject location = locationsArray.getJSONObject(i);
+                        String name = location.getString("name");
+                        //"locations" là một mảng JSON chứa một đối tượng JSON.
+                        // Vì vậy, bạn có thể sử dụng phương thức getJSONArray("locations")
+                        // để truy cập mảng này và sau đó lấy đối tượng JSON đầu tiên từ mảng đó.
+                        // Dưới đây là mã để trích xuất thông tin "name" từ đối tượng JSON "Phòng khách":
+                        locationNames.add(name);
+                        // Tạo một ListView trong layout XML của bạn (ví dụ: activity_main.xml)
+                        //ListView listView = findViewById(R.id.listView);
+                        //
+                        //// Tạo một ArrayAdapter để hiển thị danh sách tên vị trí trên ListView
+                        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, locationNames);
+                        //
+                        //// Đặt adapter cho ListView
+                        //listView.setAdapter(adapter);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                dialog.dismiss();
             }
         }, error -> {
-            // error if connection not success
             error.printStackTrace();
-            currentLocation.setText("Nowhere");
-            Toast.makeText(this, "Get info failed", Toast.LENGTH_SHORT).show();
-        });
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(request);
+            dialog.dismiss();
+        }) {
+
+            // add token to header
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            // add params
+        };
+
+        queue.add(stringRequest);
+
     }
 }
