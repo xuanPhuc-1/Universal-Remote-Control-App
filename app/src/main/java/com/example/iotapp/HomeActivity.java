@@ -49,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private static final int GALLERY_ADD_POST = 2;
     private RequestQueue requestQueue;
-    private TextView currentLocation;
     private TextView currentUserName;
     private float currentTemp;
     private float currentHumid;
@@ -78,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
             i.setType("image/*");
             startActivityForResult(i, GALLERY_ADD_POST);
         });
-        userLocation = findViewById(R.id.txtLocation);
+        userLocation = findViewById(R.id.txtLocationTop);
 
         getUserLocation();
     }
@@ -97,24 +96,22 @@ public class HomeActivity extends AppCompatActivity {
 
     private void getUserLocation() {
         RequestQueue queue = Volley.newRequestQueue(this);
-
-// Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.PICK_LOCATION, response ->
         {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray locationsArray = object.getJSONArray("locations");
-
                     // Lặp qua tất cả các phần tử trong mảng "locations"
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
-                        String name = location.getString("name");
+                        String locationName = location.getString("name");
                         //"locations" là một mảng JSON chứa một đối tượng JSON.
                         // Vì vậy, bạn có thể sử dụng phương thức getJSONArray("locations")
                         // để truy cập mảng này và sau đó lấy đối tượng JSON đầu tiên từ mảng đó.
                         // Dưới đây là mã để trích xuất thông tin "name" từ đối tượng JSON "Phòng khách":
-                        locationNames.add(name);
+                        locationNames.add(locationName);
+                        userLocation.setText(locationName);
                         // Tạo một ListView trong layout XML của bạn (ví dụ: activity_main.xml)
                         //ListView listView = findViewById(R.id.listView);
                         //
@@ -132,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
         }, error -> {
             error.printStackTrace();
             dialog.dismiss();
+            userLocation.setText("error");
         }) {
 
             // add token to header
@@ -145,8 +143,75 @@ public class HomeActivity extends AppCompatActivity {
 
             // add params
         };
-
         queue.add(stringRequest);
-
     }
+    private void getCurrentTempAndHumid() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.GET_TEMP_HUMID, response ->
+        {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray locationsArray = object.getJSONArray("locations");
+                    // Lặp qua tất cả các phần tử trong mảng "locations"
+                    for (int i = 0; i < locationsArray.length(); i++) {
+                        JSONObject location = locationsArray.getJSONObject(i);
+                        String sensor = location.getString("sensor");
+                        locationNames.add(sensor);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                dialog.dismiss();
+            }
+        }, error -> {
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+            // add params
+        };
+        queue.add(stringRequest);
+    }
+    private void deviceCategory() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.GET_DEVICES_CATEGORY, response ->
+        {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray locationsArray = object.getJSONArray("locations");
+                    // Lặp qua tất cả các phần tử trong mảng "locations"
+                    for (int i = 0; i < locationsArray.length(); i++) {
+                        JSONObject location = locationsArray.getJSONObject(i);
+                        String device = location.getString("data");
+                        locationNames.add(device);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                dialog.dismiss();
+            }
+        }, error -> {
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+            // add params
+        };
+        queue.add(stringRequest);
+    }
+
 }
