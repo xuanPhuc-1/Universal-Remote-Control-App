@@ -106,12 +106,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/celcius"></ImageView>
     </LinearLayout>
 
     <RelativeLayout
