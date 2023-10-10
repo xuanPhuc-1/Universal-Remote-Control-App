@@ -4,6 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".HomeActivity"
     >
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -106,12 +108,12 @@
 
         </LinearLayout>
 
-<!--        <ImageView-->
-<!--            android:layout_width="15dp"-->
-<!--            android:layout_height="15dp"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:src="@drawable/celcius"></ImageView>-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="15dp"-->
+        <!--            android:layout_height="15dp"-->
+        <!--            android:scaleType="fitCenter"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:src="@drawable/celcius"></ImageView>-->
     </LinearLayout>
 
     <RelativeLayout
@@ -119,24 +121,20 @@
         android:layout_height="569dp"
 
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
-        <FrameLayout
-            android:id="@+id/frameHomeContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                android:id="@+id/txtLocation"
-                android:layout_marginLeft="25dp"
-                >
-            </TextView>
-        </FrameLayout>
-
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/room_item"
+            />
 
     </RelativeLayout>
 

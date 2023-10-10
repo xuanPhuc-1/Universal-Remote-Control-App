@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,11 +40,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity {
-    public ArrayList<String> locationNames = new ArrayList<>();
+
 
     private FragmentManager fragmentManager;
     private FloatingActionButton fab;
@@ -53,9 +56,11 @@ public class HomeActivity extends AppCompatActivity {
     private float currentTemp;
     private float currentHumid;
 
-    private TextView userLocation;
     private SharedPreferences preferences;
     private ProgressDialog dialog;
+    private RecyclerView recyclerView;
+    private LocationAdapter adapter;
+    private List<Location> locationList = new ArrayList<>();
 
 
     // set home activity làm fragment chính
@@ -63,9 +68,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home);
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(), HomeFragment.class.getSimpleName()).commit();
         init();
+
+        adapter = new LocationAdapter(locationList);
+//        fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(), HomeFragment.class.getSimpleName()).commit();
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void init() {
@@ -77,8 +85,6 @@ public class HomeActivity extends AppCompatActivity {
             i.setType("image/*");
             startActivityForResult(i, GALLERY_ADD_POST);
         });
-        userLocation = findViewById(R.id.txtLocationTop);
-
         getUserLocation();
     }
 
@@ -93,9 +99,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
     private void getUserLocation() {
         RequestQueue queue = Volley.newRequestQueue(this);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.PICK_LOCATION, response ->
         {
             try {
@@ -105,22 +111,19 @@ public class HomeActivity extends AppCompatActivity {
                     // Lặp qua tất cả các phần tử trong mảng "locations"
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
-                        String locationName = location.getString("name");
-                        //"locations" là một mảng JSON chứa một đối tượng JSON.
-                        // Vì vậy, bạn có thể sử dụng phương thức getJSONArray("locations")
-                        // để truy cập mảng này và sau đó lấy đối tượng JSON đầu tiên từ mảng đó.
-                        // Dưới đây là mã để trích xuất thông tin "name" từ đối tượng JSON "Phòng khách":
-                        locationNames.add(locationName);
-                        userLocation.setText(locationName);
-                        // Tạo một ListView trong layout XML của bạn (ví dụ: activity_main.xml)
-                        //ListView listView = findViewById(R.id.listView);
-                        //
-                        //// Tạo một ArrayAdapter để hiển thị danh sách tên vị trí trên ListView
-                        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, locationNames);
-                        //
-                        //// Đặt adapter cho ListView
-                        //listView.setAdapter(adapter);
+                        String Name = location.getString("name");
+                        Location locationObj = new Location(Name);
+                        locationList.add(locationObj);
+                        Log.d("location", Name); // log location
                     }
+                    for (Location location : locationList) {
+                        Log.d("LocationInfo", "Name: " + location.getName() + "\n");
+                    }
+
+                    adapter = new LocationAdapter(locationList); // tạo adapter cho recyclerview
+                    recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
+                    recyclerView.setAdapter(adapter); // set adapter cho recyclerview
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout cho recyclerview
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -131,7 +134,6 @@ public class HomeActivity extends AppCompatActivity {
             dialog.dismiss();
             userLocation.setText("error");
         }) {
-
             // add token to header
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -140,8 +142,6 @@ public class HomeActivity extends AppCompatActivity {
                 map.put("Authorization", "Bearer " + token);
                 return map;
             }
-
-            // add params
         };
         queue.add(stringRequest);
     }

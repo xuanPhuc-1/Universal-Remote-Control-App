@@ -121,10 +121,10 @@ public class AddActivity extends AppCompatActivity {
                     hub.setMAC(hubObject.getString("mac"));
                     hub.setDate(hubObject.getString("created_at"));
 
-                    Location location = new Location();
-                    location.setUser(user);
-                    location.setId(locationObject.getInt("id"));
-                    location.setName(locationObject.getString("name"));
+//                    Location location = new Location();
+//                    location.setUser(user);
+//                    location.setId(locationObject.getInt("id"));
+//                    location.setName(locationObject.getString("name"));
 
                     Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
                     finish();
