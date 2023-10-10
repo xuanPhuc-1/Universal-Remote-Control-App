@@ -102,7 +102,6 @@ public class HomeActivity extends AppCompatActivity {
     private void getUserLocation() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.PICK_LOCATION, response ->
         {
             try {
@@ -133,6 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         }, error -> {
             error.printStackTrace();
             dialog.dismiss();
+            userLocation.setText("error");
         }) {
             // add token to header
             @Override
@@ -145,4 +145,73 @@ public class HomeActivity extends AppCompatActivity {
         };
         queue.add(stringRequest);
     }
+    private void getCurrentTempAndHumid() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.GET_TEMP_HUMID, response ->
+        {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray locationsArray = object.getJSONArray("locations");
+                    // Lặp qua tất cả các phần tử trong mảng "locations"
+                    for (int i = 0; i < locationsArray.length(); i++) {
+                        JSONObject location = locationsArray.getJSONObject(i);
+                        String sensor = location.getString("sensor");
+                        locationNames.add(sensor);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                dialog.dismiss();
+            }
+        }, error -> {
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+            // add params
+        };
+        queue.add(stringRequest);
+    }
+    private void deviceCategory() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constant.GET_DEVICES_CATEGORY, response ->
+        {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray locationsArray = object.getJSONArray("locations");
+                    // Lặp qua tất cả các phần tử trong mảng "locations"
+                    for (int i = 0; i < locationsArray.length(); i++) {
+                        JSONObject location = locationsArray.getJSONObject(i);
+                        String device = location.getString("data");
+                        locationNames.add(device);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                dialog.dismiss();
+            }
+        }, error -> {
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+            // add params
+        };
+        queue.add(stringRequest);
+    }
+
 }
