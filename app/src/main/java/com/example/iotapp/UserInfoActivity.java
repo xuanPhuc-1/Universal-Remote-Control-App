@@ -119,7 +119,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
                     SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("photo",object.getString("photo"));
+                    editor.putString("photo"    ,object.getString("photo"));
                     editor.putString("name", object.getString("name"));
                     editor.apply();
                     startActivity(new Intent(UserInfoActivity.this,HomeActivity.class));
