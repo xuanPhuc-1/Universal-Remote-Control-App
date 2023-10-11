@@ -69,11 +69,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home);
         init();
-
-        adapter = new LocationAdapter(locationList);
 //        fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(), HomeFragment.class.getSimpleName()).commit();
-        recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void init() {
@@ -119,11 +116,9 @@ public class HomeActivity extends AppCompatActivity {
                     for (Location location : locationList) {
                         Log.d("LocationInfo", "Name: " + location.getName() + "\n");
                     }
-
                     adapter = new LocationAdapter(locationList); // tạo adapter cho recyclerview
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout cho recyclerview
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -132,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
         }, error -> {
             error.printStackTrace();
             dialog.dismiss();
-            userLocation.setText("error");
+            //userLocation.setText("error");
         }) {
             // add token to header
             @Override
@@ -157,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
                         String sensor = location.getString("sensor");
-                        locationNames.add(sensor);
+                        //locationNames.add(sensor);
                     }
                 }
             } catch (JSONException e) {
@@ -191,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
                         String device = location.getString("data");
-                        locationNames.add(device);
+                        //locationNames.add(device);
                     }
                 }
             } catch (JSONException e) {
