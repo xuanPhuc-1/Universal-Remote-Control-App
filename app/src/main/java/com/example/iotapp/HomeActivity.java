@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +62,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LocationAdapter adapter;
     private List<Location> locationList = new ArrayList<>();
+    private GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+
 
 
     // set home activity làm fragment chính
@@ -70,7 +74,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.layout_home);
         init();
 //        fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(), HomeFragment.class.getSimpleName()).commit();
+//        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(),
+//        HomeFragment.class.getSimpleName()).commit();
     }
 
     private void init() {
@@ -116,8 +121,16 @@ public class HomeActivity extends AppCompatActivity {
                     for (Location location : locationList) {
                         Log.d("LocationInfo", "Name: " + location.getName() + "\n");
                     }
+                    //recyclerView.addItemDecoration(new ItemDecoration(10));
                     adapter = new LocationAdapter(locationList); // tạo adapter cho recyclerview
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                        @Override
+//                        public int getSpanSize(int position) {
+//                            return (position % 2 == 0) ? 2 : 1;
+//                        }
+//                    });
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview
                 }
             } catch (JSONException e) {

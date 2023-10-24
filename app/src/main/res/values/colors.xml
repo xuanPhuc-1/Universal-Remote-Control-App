@@ -7,4 +7,9 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#666666</color>
     <color name="colorLightGrey">#999999</color>
+    <color name="_bg__conditionar_page_color">#F8F8F8</color>
+    <color name="_bg__navigation_ek1_color">#000000</color>
+    <color name="home_ek4_color">#3C3C3C</color>
+    <color name="remote_color">#0A0A0A</color>
+    <color name="ellipse_1436_color">#ffffff</color>
 </resources>
