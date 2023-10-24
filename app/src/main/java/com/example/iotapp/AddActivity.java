@@ -106,20 +106,20 @@ public class AddActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
 
-                    JSONObject hubObject = object.getJSONObject("hub");
-                    JSONObject userObject = object.getJSONObject("user");
-                    JSONObject locationObject = object.getJSONObject("location");
-
-                    User user = new User();
-                    user.setId(userObject.getInt("id"));
-                    user.setUserName(userObject.getString("name"));
-                    user.setPhoto(userObject.getString("photo"));
-
-                    Hub hub = new Hub();
-                    hub.setUser(user);
-                    hub.setId(hubObject.getInt("id"));
-                    hub.setMAC(hubObject.getString("mac"));
-                    hub.setDate(hubObject.getString("created_at"));
+//                    JSONObject hubObject = object.getJSONObject("hub");
+//                    JSONObject userObject = object.getJSONObject("user");
+//                    JSONObject locationObject = object.getJSONObject("location");
+//
+//                    User user = new User();
+//                    user.setId(userObject.getInt("id"));
+//                    user.setUserName(userObject.getString("name"));
+//                    user.setPhoto(userObject.getString("photo"));
+//
+//                    Hub hub = new Hub();
+//                    hub.setUser(user);
+//                    hub.setId(hubObject.getInt("id"));
+//                    hub.setMAC(hubObject.getString("mac"));
+//                    hub.setDate(hubObject.getString("created_at"));
 
 //                    Location location = new Location();
 //                    location.setUser(user);
