@@ -1,8 +1,8 @@
 package com.example.iotapp;
 
 public class Constant {
-    //public static final String URL = "http://iotdomain.giize.com"; //url of laravel
-    public static final String URL = "http://192.168.82.116:8000";
+    public static final String URL = "http://iotdomain.giize.com"; //url of laravel
+    //public static final String URL = "http://192.168.82.116:8000";
     public static final String HOME = URL + "/api";
     public static final String LOGIN =  HOME + "/login";
     public static final String LOGOUT =  HOME + "/logout";

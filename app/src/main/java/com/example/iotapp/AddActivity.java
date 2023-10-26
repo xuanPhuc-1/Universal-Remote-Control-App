@@ -127,6 +127,9 @@ public class AddActivity extends AppCompatActivity {
 //                    location.setName(locationObject.getString("name"));
 
                     Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
+//                    finish();
+                    //return to home activity
+                    startActivity(new Intent(AddActivity.this,HomeActivity.class));
                     finish();
                 }
             } catch (JSONException e) {

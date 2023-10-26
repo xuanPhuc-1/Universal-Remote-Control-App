@@ -21,6 +21,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,20 +64,14 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LocationAdapter adapter;
     private List<Location> locationList = new ArrayList<>();
-    private GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
 
-
-
-    // set home activity làm fragment chính
+        // set home activity làm fragment chính
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home);
         init();
-//        fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer, new HomeFragment(),
-//        HomeFragment.class.getSimpleName()).commit();
     }
 
     private void init() {
@@ -122,7 +118,11 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("LocationInfo", "Name: " + location.getName() + "\n");
                     }
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
-                    adapter = new LocationAdapter(locationList); // tạo adapter cho recyclerview
+                    adapter = new LocationAdapter(locationList, location -> {
+                        Intent intent = new Intent(HomeActivity.this, RemoteActivity.class);
+                        intent.putExtra("location", location.getName());
+                        startActivity(intent);
+                    });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
 //                    recyclerView.setLayoutManager(layoutManager);
 //                    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
