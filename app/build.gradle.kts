@@ -48,7 +48,6 @@ dependencies {
         exclude(module = "support-v4")
     }
 
-
     // add paho mqtt dependency
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0")
     implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
