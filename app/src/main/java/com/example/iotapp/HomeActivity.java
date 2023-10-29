@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.jar.Attributes;
 
 public class HomeActivity extends AppCompatActivity {
-    public String ID;
     private FloatingActionButton fab;
     private BottomNavigationView navigationView;
     private static final int GALLERY_ADD_POST = 2;
@@ -87,30 +86,23 @@ public class HomeActivity extends AppCompatActivity {
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
                         String Name = location.getString("name");
-                        ID = location.getString("id");
-                        Location locationObj = new Location(Name);
+                        String locationId = location.getString("id");
+                        Location locationObj = new Location(Name, locationId);
                         locationList.add(locationObj);
                         Log.d("location", Name); // log location
-                        Log.d("ID", ID);
+                        Log.d("ID", locationId);
                     }
                     for (Location location : locationList) {
                         Log.d("LocationInfo", "Name: " + location.getName() + "\n");
                     }
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
                     adapter = new LocationAdapter(locationList, location -> {
-                        Intent intent = new Intent(HomeActivity.this, HomeDeviceActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, HomeDeviceCateActivity.class);
                         intent.putExtra("roomName", location.getName());
-                        intent.putExtra("id", ID);
+                        intent.putExtra("roomId", location.getId());
                         startActivity(intent);
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
-//                    recyclerView.setLayoutManager(layoutManager);
-//                    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                        @Override
-//                        public int getSpanSize(int position) {
-//                            return (position % 2 == 0) ? 2 : 1;
-//                        }
-//                    });
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview
                 }
             } catch (JSONException e) {

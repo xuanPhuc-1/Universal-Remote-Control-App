@@ -1,6 +1,6 @@
 package com.example.iotapp;
 
-public interface SelectListener {
+public interface SelectLocationListener {
     void onItemClicked(Location location);
 
 }

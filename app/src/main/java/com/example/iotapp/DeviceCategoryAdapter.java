@@ -12,47 +12,46 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
-    private List<Location> locationList;
-    private SelectLocationListener listener;
+public class DeviceCategoryAdapter extends RecyclerView.Adapter<DeviceCategoryAdapter.ViewHolder> {
+    private List<DeviceCategory> deviceCategoryList;
+    private SelectDeviceCateListener listener;
 
-    public LocationAdapter(List<Location> locationList, SelectLocationListener listener) {
-        this.locationList = locationList;
+    public DeviceCategoryAdapter(List<DeviceCategory> deviceCategoryList, SelectDeviceCateListener listener) {
+        this.deviceCategoryList = deviceCategoryList;
         this.listener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_cate_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) { // set text cho từng item
-        Location location = locationList.get(position);
-        holder.locationName.setText(location.getName());
+        DeviceCategory deviceCategory = deviceCategoryList.get(position);
+        holder.deviceCateName.setText(deviceCategory.getName());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClicked(locationList.get(position));
+                listener.onItemClicked(deviceCategoryList.get(position));
             } // khi click vào item thì sẽ chuyển sang màn hình remote
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return locationList.size();
+        return deviceCategoryList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView locationName;
+        TextView deviceCateName;
         public CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            locationName = itemView.findViewById(R.id.locationName);
-            cardView = itemView.findViewById(R.id.main_location_container);
+            deviceCateName = itemView.findViewById(R.id.deviceCateName);
+            cardView = itemView.findViewById(R.id.main_device_cate_container);
         }
     }
 }
