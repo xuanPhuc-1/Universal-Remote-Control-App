@@ -80,7 +80,50 @@
 
         </ImageButton>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        >
+        <ImageButton
+            android:id="@+id/btnExit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:src="@drawable/exit1"
+            android:background="@drawable/shape3"
+            android:layout_marginRight="30dp"
+            >
+        </ImageButton>
 
+        <ImageButton
+            android:id="@+id/btnInfo"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:src="@drawable/info"
+            android:background="@drawable/shape3"
+            android:layout_marginRight="30dp"
+            >
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/btnSchedule"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:src="@drawable/guide"
+            android:background="@drawable/shape3"
+
+            >
+
+        </ImageButton>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -257,19 +300,6 @@
         </ImageButton>
 
         <ImageButton
-            android:id="@+id/btnBlue"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:scaleType="centerInside"
-            android:padding="10dp"
-            android:src="@drawable/blue"
-            android:background="@drawable/shape_blue"
-            android:layout_marginRight="30dp"
-            >
-
-        </ImageButton>
-
-        <ImageButton
             android:id="@+id/btnYellow"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -277,10 +307,27 @@
             android:padding="10dp"
             android:src="@drawable/yellow"
             android:background="@drawable/shape_yellow"
+            android:layout_marginRight="30dp"
             >
 
         </ImageButton>
+
+        <ImageButton
+            android:id="@+id/btnBlue"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:src="@drawable/blue"
+            android:background="@drawable/shape_blue"
+            >
+
+        </ImageButton>
+
+
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
