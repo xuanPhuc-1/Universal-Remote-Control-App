@@ -8,24 +8,22 @@
     android:layout_marginBottom="8dp"
     app:cardElevation="4dp"
     app:cardCornerRadius="20dp"
-    android:id="@+id/main_location_container">
+    android:id="@+id/main_device_cate_container">
 
     <LinearLayout
-        android:id="@+id/roomItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/roomImage"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/room_placeholder"
-            />
+            android:id="@+id/deviceImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/light" />
 
         <TextView
-            android:id="@+id/locationName"
+            android:id="@+id/deviceCateName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="return if null"
@@ -34,7 +32,7 @@
             />
 
         <TextView
-            android:id="@+id/deviceNum"
+            android:id="@+id/deviceCateNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="return if null"

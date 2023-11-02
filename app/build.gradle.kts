@@ -4,11 +4,11 @@
 
 android {
     namespace = "com.example.iotapp"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.example.iotapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -35,7 +35,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -43,5 +43,16 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.cardview:cardview:1.0.0")
+
+    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1") {
+        exclude(module = "support-v4")
+    }
+
+    // add paho mqtt dependency
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0")
+    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
+
+    //implementation("androidx.work:work-runtime:2.7.1")
+
 
 }

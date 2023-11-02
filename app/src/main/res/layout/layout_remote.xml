@@ -154,7 +154,7 @@
             android:layout_height="50dp"
             android:src="@drawable/plus_icon"
             android:layout_centerHorizontal="true"
-            android:background="null"/>
+            android:background="@null"/>
         <ImageButton
             android:id="@+id/btnVolDown"
             android:layout_marginTop="90dp"
@@ -162,7 +162,7 @@
             android:layout_height="50dp"
             android:src="@drawable/subtract_icon"
             android:layout_centerHorizontal="true"
-            android:background="null"/>
+            android:background="@null"/>
 
     </RelativeLayout>
 
@@ -180,7 +180,7 @@
                 android:contentDescription="Left Button"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
-                android:background="null"/>
+                android:background="@null"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -205,7 +205,7 @@
                 android:layout_height="50dp"
                 android:src="@drawable/up_icon"
                 android:layout_centerHorizontal="true"
-                android:background="null"/>
+                android:background="@null"/>
             <ImageButton
                 android:id="@+id/btnDown"
                 android:layout_marginTop="90dp"
@@ -214,7 +214,7 @@
                 android:src="@drawable/down_icon"
                 android:contentDescription="Up Button"
                 android:layout_centerHorizontal="true"
-                android:background="null"/>
+                android:background="@null"/>
             <ImageButton
                 android:id="@+id/btnLeft"
                 android:layout_width="50dp"
@@ -223,7 +223,7 @@
                 android:contentDescription="Right Button"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:background="null"
+                android:background="@null"
                 />
 
         </RelativeLayout>
@@ -254,7 +254,7 @@
                 android:src="@drawable/up_icon"
                 android:contentDescription="Up Button"
                 android:layout_centerHorizontal="true"
-                android:background="null"/>
+                android:background="@null"/>
             <ImageButton
                 android:id="@+id/btnChDown"
                 android:layout_marginTop="90dp"
@@ -263,7 +263,7 @@
                 android:src="@drawable/down_icon"
                 android:contentDescription="Up Button"
                 android:layout_centerHorizontal="true"
-                android:background="null"/>
+                android:background="@null"/>
 
 
         </RelativeLayout>
@@ -334,7 +334,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="23dp"
         android:orientation="vertical">
 
         <LinearLayout

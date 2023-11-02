@@ -1,10 +1,12 @@
 package com.example.iotapp;
 
-public class Location {
+public class DeviceCategory
+{
     private String name, id;
+    //declare a Image variable to store the image
 
 
-    public Location(String name, String id) {
+    public DeviceCategory(String name, String id) {
         this.name = name;
         this.id = id;
     }

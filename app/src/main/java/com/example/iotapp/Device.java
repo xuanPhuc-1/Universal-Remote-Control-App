@@ -1,12 +1,10 @@
 package com.example.iotapp;
 
-public class Location {
-    private String name, id;
+public class Device {
+    private String name;
 
-
-    public Location(String name, String id) {
+    public Device(String name) {
         this.name = name;
-        this.id = id;
     }
     public String getName() {
         return name;
@@ -14,9 +12,5 @@ public class Location {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String  getId() {
-        return id;
     }
 }
