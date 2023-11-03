@@ -1,4 +1,4 @@
-package com.example.iotapp;
+package com.example.iotapp.Objects;
 
 public class User {
     private int id;

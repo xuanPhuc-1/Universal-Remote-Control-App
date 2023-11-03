@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.iotapp.ViewPagerAdapter;
+import com.example.iotapp.Adapters.ViewPagerAdapter;
 
 public class OnBoardActivity extends AppCompatActivity {
 

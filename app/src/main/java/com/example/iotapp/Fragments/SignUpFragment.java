@@ -1,4 +1,6 @@
-package com.example.iotapp;
+package com.example.iotapp.Fragments;
+
+
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,45 +34,49 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.example.iotapp.SignUpFragment;
 import com.example.iotapp.Constant;
-public class SignInFragment extends Fragment {
+import com.example.iotapp.Fragments.SignInFragment;
+import com.example.iotapp.AuthActivity;
+import com.example.iotapp.UserInfoActivity;
+public class SignUpFragment extends Fragment {
     private View view;
-    private TextInputLayout layoutEmail,layoutPassword;
-    private TextInputEditText txtEmail,txtPassword;
-    private TextView txtSignUp;
-    private Button btnSignIn;
+    private TextInputLayout layoutEmail,layoutPassword,layoutConfirm;
+    private TextInputEditText txtEmail,txtPassword,txtConfirm;
+    private TextView txtSignIn;
+    private Button btnSignUp;
     private ProgressDialog dialog;
 
-    public SignInFragment(){}
+    public SignUpFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_sign_in,container,false);
+        view = inflater.inflate(R.layout.layout_sign_up,container,false);
         init();
         return view;
     }
 
     private void init() {
-        layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignIn);
-        layoutEmail = view.findViewById(R.id.txtLayoutEmailSignIn);
-        txtPassword = view.findViewById(R.id.txtPasswordSignIn);
-        txtSignUp = view.findViewById(R.id.txtSignUp);
-        txtEmail = view.findViewById(R.id.txtEmailSignIn);
-        btnSignIn = view.findViewById(R.id.btnSignIn);
+        layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignUp);
+        layoutEmail = view.findViewById(R.id.txtLayoutEmailSignUp);
+        layoutConfirm = view.findViewById(R.id.txtLayoutConfirmSignUp);
+        txtPassword = view.findViewById(R.id.txtPasswordSignUp);
+        txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
+        txtSignIn = view.findViewById(R.id.txtSignIn);
+        txtEmail = view.findViewById(R.id.txtEmailSignUp);
+        btnSignUp = view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
-        txtSignUp.setOnClickListener(v->{
+        txtSignIn.setOnClickListener(v->{
             //change fragments
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer,new SignUpFragment()).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer,new SignInFragment()).commit();
         });
 
-        btnSignIn.setOnClickListener(v->{
+        btnSignUp.setOnClickListener(v->{
             //validate fields first
             if (validate()){
-                login();
+                register();
             }
         });
 
@@ -113,6 +118,26 @@ public class SignInFragment extends Fragment {
 
             }
         });
+
+        txtConfirm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtConfirm.getText().toString().equals(txtPassword.getText().toString())){
+                    layoutConfirm.setErrorEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -127,47 +152,53 @@ public class SignInFragment extends Fragment {
             layoutPassword.setError("Required at least 8 characters");
             return false;
         }
+        if (!txtConfirm.getText().toString().equals(txtPassword.getText().toString())){
+            layoutConfirm.setErrorEnabled(true);
+            layoutConfirm.setError("Password does not match");
+            return false;
+        }
+
+
         return true;
     }
 
 
-    private void login (){
+    private void register(){
+        dialog.setMessage("Registering");
         dialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST, Constant.LOGIN, response -> {
+
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.RESGISTER, response -> {
+
             //we get response if connection success
             try {
                 JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")){
+                if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
                     //make shared preference user
-                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("token",object.getString("token"));
-                    editor.putString("name",user.getString("name"));
-                    editor.putInt("id",user.getInt("id"));
-                    editor.putString("photo",user.getString("photo"));
-                    editor.putBoolean("isLoggedIn",true);
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("name", user.getString("name"));
+                    editor.putInt("id", user.getInt("id"));
+                    editor.putString("photo", user.getString("photo"));
+                    editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                     //if success
 
-                    startActivity(new Intent(((AuthActivity)getContext()), HomeActivity.class));
+                    Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(((AuthActivity) getContext()), UserInfoActivity.class));
                     ((AuthActivity) getContext()).finish();
-                    //Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userPref.edit();
-                    editor.putBoolean("isLoggedIn",false);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             dialog.dismiss();
+
         },error -> {
             // error if connection not success
             error.printStackTrace();
             dialog.dismiss();
-        })
-        {
+        }){
 
             // add parameters
 
@@ -185,4 +216,6 @@ public class SignInFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }
+
+
 }

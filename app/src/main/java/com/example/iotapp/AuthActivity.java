@@ -1,7 +1,8 @@
 package com.example.iotapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.iotapp.SignInFragment;
+
+import com.example.iotapp.Fragments.SignInFragment;
 import android.os.Bundle;
 
 public class AuthActivity extends AppCompatActivity {

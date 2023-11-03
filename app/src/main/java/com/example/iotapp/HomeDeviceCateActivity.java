@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iotapp.Adapters.DeviceCategoryAdapter;
+import com.example.iotapp.Objects.DeviceCategory;
 
 import org.json.JSONArray;
 import org.json.JSONException;

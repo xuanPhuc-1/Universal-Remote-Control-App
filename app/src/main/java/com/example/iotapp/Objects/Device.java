@@ -1,4 +1,4 @@
-package com.example.iotapp;
+package com.example.iotapp.Objects;
 
 public class Device {
     private String name;

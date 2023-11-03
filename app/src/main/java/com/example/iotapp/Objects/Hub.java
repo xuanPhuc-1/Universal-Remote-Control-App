@@ -1,4 +1,4 @@
-package com.example.iotapp;
+package com.example.iotapp.Objects;
 
 public class Hub {
     private int id;

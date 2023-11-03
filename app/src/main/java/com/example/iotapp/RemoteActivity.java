@@ -52,14 +52,14 @@ public class RemoteActivity extends AppCompatActivity {
                 vibrator.vibrate(500);
             }
             // Sau khi rung, bạn có thể tiếp tục thực hiện thao tác của bạn
-            mqttHandler.publish("esp32/command","{\"data\":{\"macID\":\"40:22:D8:EA:06:F8\",\"command\":\"0xFF629D\"}}");
+            mqttHandler.publish("esp32/output_server","{\"data\":{\"macID\":\"40:22:D8:EA:06:F8\",\"command\":\"0xFF629D\"}}");
         });
 
         btnRed.setOnClickListener(v -> {
             if (vibrator.hasVibrator()) {
                 vibrator.vibrate(500);
             }
-            mqttHandler.publish("esp32/command","{\"data\":{\"macID\":\"40:22:D8:EA:06:F8\",\"command\":\"0xFFE21D\"}}");
+            mqttHandler.publish("esp32/output_server","{\"data\":{\"macID\":\"40:22:D8:EA:06:F8\",\"command\":\"0xFFE21D\"}}");
 
         });
     }

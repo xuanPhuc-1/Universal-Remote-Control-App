@@ -1,4 +1,4 @@
-package com.example.iotapp;
+package com.example.iotapp.Adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.iotapp.Objects.DeviceCategory;
+import com.example.iotapp.R;
+import com.example.iotapp.Listeners.SelectDeviceCateListener;
 
 import java.util.List;
 
