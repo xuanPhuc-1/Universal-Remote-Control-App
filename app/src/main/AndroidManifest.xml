@@ -23,6 +23,9 @@
             android:name=".HomeDeviceCateActivity"
             android:exported="false" />
         <activity
+            android:name=".HomeDeviceActivity"
+            android:exported="false" />
+        <activity
             android:name=".AccountFragment"
             android:exported="false" />
         <activity

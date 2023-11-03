@@ -16,8 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.iotapp.Adapters.DeviceCategoryAdapter;
-import com.example.iotapp.Objects.DeviceCategory;
+import com.example.iotapp.Adapters.DeviceAdapter;
+import com.example.iotapp.Objects.Device;
+import com.example.iotapp.Objects.Device;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,15 +29,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeDeviceCateActivity extends AppCompatActivity {
+public class HomeDeviceActivity extends AppCompatActivity {
     TextView tRoomName;
 
     private ProgressDialog dialog;
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
-    private DeviceCategoryAdapter adapter;
-    private List<DeviceCategory> deviceCategoryList = new ArrayList<>();
-    public String locationID ;
+    private DeviceAdapter adapter;
+    private List<Device> deviceList = new ArrayList<>();
+    public String deviceCateID;
     public String url;
 
     @Override
@@ -47,20 +48,20 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
         //sRoomName = getIntent().getStringExtra("roomName");
 
         // tRoomName.setText(sRoomName);
-        locationID = getIntent().getStringExtra("roomId");
-        Log.d("Id reveived", locationID);
-        url = Constant.PICK_LOCATION + "/" + locationID + "/device_categories";
+        deviceCateID = getIntent().getStringExtra("deviceCateID");
+        Log.d("Id reveived", deviceCateID);
+        url = Constant.HOME + "/device_categories/" + deviceCateID + "/devices";
         Log.d("URL", url);
         init();
     }
 
     private void init() {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        getCateDevices();
+        getDevices();
     }
 
 
-    private void getCateDevices()
+    private void getDevices()
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response ->
@@ -68,26 +69,26 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    JSONArray DeviceCateArray = object.getJSONArray("data");
+                    JSONArray DeviceArray = object.getJSONArray("data");
                     // Lặp qua tất cả các phần tử trong mảng "locations"
-                    for (int i = 0; i < DeviceCateArray.length(); i++) {
-                        JSONObject deviceCategoryObj = DeviceCateArray.getJSONObject(i);
-                        String Name = deviceCategoryObj.getString("name");
-                        String deviceCateId = deviceCategoryObj.getString("id");
-                        DeviceCategory deviceCategory = new DeviceCategory(Name, deviceCateId);
-                        deviceCategoryList.add(deviceCategory);
+                    for (int i = 0; i < DeviceArray.length(); i++) {
+                        JSONObject DeviceObj = DeviceArray.getJSONObject(i);
+                        String Name = DeviceObj.getString("name");
+                        String deviceId = DeviceObj.getString("id");
+                        Device Device = new Device(Name, deviceId);
+                        deviceList.add(Device);
                         Log.d("location", Name); // log location
-                        Log.d("ID", deviceCateId);
+                        Log.d("ID", deviceId);
                     }
-                    for (DeviceCategory deviceCategory : deviceCategoryList) {
-                        Log.d("Device Cate info", "Device Category Name: " + deviceCategory.getName() + "\n");
-                        Log.d("Device Cate info", "Device Category ID: " + deviceCategory.getId() + "\n");
+                    for (Device Device : deviceList) {
+                        Log.d("Device Cate info", "Device Category Name: " + Device.getName() + "\n");
+                        Log.d("Device Cate info", "Device Category ID: " + Device.getId() + "\n");
                     }
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
-                    adapter = new DeviceCategoryAdapter(deviceCategoryList, deviceCategory -> {
-                        Intent intent = new Intent(HomeDeviceCateActivity.this, HomeDeviceActivity.class);
-                        intent.putExtra("deviceCateName", deviceCategory.getName());
-                        intent.putExtra("deviceCateID", deviceCategory.getId());
+                    adapter = new DeviceAdapter(deviceList, Device -> {
+                        Intent intent = new Intent(HomeDeviceActivity.this, RemoteActivity.class);
+//                        intent.putExtra("roomName", Device.getName());
+//                        intent.putExtra("roomId", Device.getId());
                         startActivity(intent);
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview

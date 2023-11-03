@@ -1,10 +1,13 @@
 package com.example.iotapp.Objects;
 
 public class Device {
-    private String name;
+    private String name, id;
+    //declare a Image variable to store the image
 
-    public Device(String name) {
+
+    public Device(String name, String id) {
         this.name = name;
+        this.id = id;
     }
     public String getName() {
         return name;
@@ -12,5 +15,9 @@ public class Device {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String  getId() {
+        return id;
     }
 }
