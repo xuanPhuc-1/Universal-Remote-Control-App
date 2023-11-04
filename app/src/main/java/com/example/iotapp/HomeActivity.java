@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iotapp.Objects.DeviceCategory;
 import com.example.iotapp.Objects.Location;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,6 +44,8 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LocationAdapter adapter;
     private List<Location> locationList = new ArrayList<>();
+    //declare a string array to store all device category name
+    private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
 
 
         // set home activity làm fragment chính
@@ -97,15 +100,28 @@ public class HomeActivity extends AppCompatActivity {
                     for (Location location : locationList) {
                         Log.d("LocationInfo", "Name: " + location.getName() + "\n");
                     }
+                    JSONArray deviceCategoriesArray = object.getJSONArray("deviceCategories"); // Sử dụng optJSONArray thay vì getJSONArray
+                    for (int i = 0; i < deviceCategoriesArray.length(); i++) {
+                        JSONObject categoryObject = deviceCategoriesArray.getJSONObject(i);
+                        String id = categoryObject.getString("id");
+                        String name = categoryObject.getString("name");
+                        DeviceCategory deviceCategory = new DeviceCategory(name, id);
+                        deviceCategories.add(deviceCategory);
+                    }
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
                     adapter = new LocationAdapter(locationList, location -> {
                         Intent intent = new Intent(HomeActivity.this, HomeDeviceCateActivity.class);
                         intent.putExtra("roomName", location.getName());
                         intent.putExtra("roomId", location.getId());
+                        //send device category string array to HomeDeviceCateActivity
+                        intent.putExtra("deviceCategories", deviceCategories);
                         startActivity(intent);
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview
+
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

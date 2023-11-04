@@ -1,5 +1,6 @@
 package com.example.iotapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,8 +8,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iotapp.Adapters.DeviceCategoryAdapter;
 import com.example.iotapp.Objects.DeviceCategory;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,35 +35,71 @@ import java.util.Map;
 
 public class HomeDeviceCateActivity extends AppCompatActivity {
     TextView tRoomName;
-
+    private BottomNavigationView navigationView;
     private ProgressDialog dialog;
+    private FloatingActionButton add_cate_fab;
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
     private DeviceCategoryAdapter adapter;
     private List<DeviceCategory> deviceCategoryList = new ArrayList<>();
-    public String locationID ;
+    public String locationID, locationName ;
     public String url;
+    private static final int GALLERY_ADD_POST = 2;
+
+    private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
+    ArrayList<String> deviceCategoryNames = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_device);
+        for (DeviceCategory category : deviceCategories) {
+            deviceCategoryNames.add(category.getName());
+        }
         //tRoomName.findViewById(R.id.txtRoomName);
         //sRoomName = getIntent().getStringExtra("roomName");
 
         // tRoomName.setText(sRoomName);
         locationID = getIntent().getStringExtra("roomId");
+        locationName = getIntent().getStringExtra("roomName");
+        //get the array sent from HomeActivity
+        deviceCategories = getIntent().getParcelableArrayListExtra("deviceCategories");
         Log.d("Id reveived", locationID);
         url = Constant.PICK_LOCATION + "/" + locationID + "/device_categories";
         Log.d("URL", url);
+
         init();
     }
 
     private void init() {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        navigationView = findViewById(R.id.bottom_nav);
+        add_cate_fab = findViewById(R.id.fab);
+        add_cate_fab.setOnClickListener(v -> {
+            Intent i = new Intent(Intent.ACTION_PICK);
+            //send deviceCategories to AddCateActivity
+            i.putParcelableArrayListExtra("deviceCategories", deviceCategories);
+            i.setType("image/*");
+            startActivityForResult(i, GALLERY_ADD_POST);
+        });
         getCateDevices();
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_ADD_POST && resultCode == RESULT_OK) {
+            Uri imgUri = data.getData();
+            Intent i = new Intent(HomeDeviceCateActivity.this, AddCateActivity.class);
+            i.setData(imgUri);
+            //send locationID to AddCateActivity
+            i.putExtra("roomName", locationName);
+            //send deviceCategories to AddCateActivity
+            i.putParcelableArrayListExtra("deviceCategories", deviceCategories);
+            startActivity(i);
+        }
+    }
 
     private void getCateDevices()
     {

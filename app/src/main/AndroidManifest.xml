@@ -20,6 +20,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AddCateActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_cate"
+            android:theme="@style/Theme.IoTApp" />
+        <activity
             android:name=".HomeDeviceCateActivity"
             android:exported="false" />
         <activity

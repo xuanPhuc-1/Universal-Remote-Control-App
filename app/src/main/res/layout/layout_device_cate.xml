@@ -174,7 +174,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
-                android:id="@+id/fab"
+                android:id="@+id/add_cate_fab"
                 android:backgroundTint="@color/colorBlack"
                 app:rippleColor="@color/colorWhite"
                 android:src="@drawable/img_1"
