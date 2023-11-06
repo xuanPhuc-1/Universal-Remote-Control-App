@@ -42,28 +42,30 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DeviceCategoryAdapter adapter;
     private List<DeviceCategory> deviceCategoryList = new ArrayList<>();
-    public String locationID, locationName ;
+    public String locationID, locationName,userName ;
     public String url;
     private static final int GALLERY_ADD_POST = 2;
 
     private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
     ArrayList<String> deviceCategoryNames = new ArrayList<>();
+    private TextView txtRoomName, txtUserName,txtTempFromSensor,txtHumidFromSensor;
+
+    private int humidity, temperature;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_device);
+        setContentView(R.layout.layout_device_cate);
         for (DeviceCategory category : deviceCategories) {
             deviceCategoryNames.add(category.getName());
         }
-        //tRoomName.findViewById(R.id.txtRoomName);
-        //sRoomName = getIntent().getStringExtra("roomName");
-
-        // tRoomName.setText(sRoomName);
+        navigationView = findViewById(R.id.bottom_nav);
         locationID = getIntent().getStringExtra("roomId");
         locationName = getIntent().getStringExtra("roomName");
+        userName = getIntent().getStringExtra("userName");
         //get the array sent from HomeActivity
         deviceCategories = getIntent().getParcelableArrayListExtra("deviceCategories");
         Log.d("Id reveived", locationID);
@@ -77,6 +79,13 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.bottom_nav);
         add_cate_fab = findViewById(R.id.fab);
+        txtRoomName = findViewById(R.id.txtRoomName);
+        txtRoomName.setText(locationName);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtUserName.setText(userName);
+        txtTempFromSensor = findViewById(R.id.txtTempFromSensor);
+        txtHumidFromSensor = findViewById(R.id.txtHumidFromSensor);
+
         add_cate_fab.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK);
             //send deviceCategories to AddCateActivity
@@ -84,6 +93,15 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
             i.setType("image/*");
             startActivityForResult(i, GALLERY_ADD_POST);
         });
+
+        navigationView.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.item_home) {
+                Intent intent = new Intent(HomeDeviceCateActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+            return false;
+        });
+
         getCateDevices();
     }
     @Override
@@ -110,6 +128,15 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray DeviceCateArray = object.getJSONArray("data");
+                    JSONObject SensorObj = object.getJSONObject("sensor");
+                    humidity = SensorObj.getInt("humidity");
+                    //convert humidity to string
+                    String humidityString = String.valueOf(humidity);
+                    temperature = SensorObj.getInt("temperature");
+                    //convert temperature to string
+                    String temperatureString = String.valueOf(temperature);
+                    txtHumidFromSensor.setText(humidityString + "%");
+                    txtTempFromSensor.setText(temperatureString + "°C");
                     // Lặp qua tất cả các phần tử trong mảng "locations"
                     for (int i = 0; i < DeviceCateArray.length(); i++) {
                         JSONObject deviceCategoryObj = DeviceCateArray.getJSONObject(i);

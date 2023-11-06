@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello"
+            android:text="Hello "
             android:fontFamily="@font/montserrat_bold"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
@@ -29,12 +29,11 @@
             android:fontFamily="@font/montserrat_bold"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
-            android:id="@+id/txtUserName"
-            ></TextView>
+            android:id="@+id/txtUserName" />
 
     </com.google.android.material.appbar.MaterialToolbar>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:background="@drawable/shape"
@@ -62,9 +61,8 @@
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txtRoomName"
                 android:layout_marginLeft="25dp"
-                android:text="Ha Noi"
-                >
-            </TextView>
+                android:text="Ha Noi" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +75,7 @@
                 android:id="@+id/txtTempFromSensor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="130dp"
                 android:fontFamily="@font/montserrat"
                 android:text="30\u2103"
                 android:textColor="@color/colorWhite"
@@ -90,19 +88,12 @@
                 android:textSize="15dp"
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txtHumidFromSensor"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="130dp"
                 android:text="40\u0025"
-                >
-            </TextView>
+            />
 
         </LinearLayout>
 
-        <!--        <ImageView-->
-        <!--            android:layout_width="15dp"-->
-        <!--            android:layout_height="15dp"-->
-        <!--            android:scaleType="fitCenter"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            android:src="@drawable/celcius"></ImageView>-->
     </LinearLayout>
 
     <RelativeLayout
@@ -115,7 +106,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             xmlns:tools="http://schemas.android.com/tools"
-            tools:context=".HomeDeviceCateActivity"
+            tools:context=".HomeActivity"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -174,7 +165,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
-                android:id="@+id/add_cate_fab"
+                android:id="@+id/fab"
                 android:backgroundTint="@color/colorBlack"
                 app:rippleColor="@color/colorWhite"
                 android:src="@drawable/img_1"

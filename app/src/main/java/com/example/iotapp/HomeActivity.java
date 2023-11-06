@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -46,9 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     private List<Location> locationList = new ArrayList<>();
     //declare a string array to store all device category name
     private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
-
-
-        // set home activity làm fragment chính
+    private TextView txtUserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.bottom_nav);
+        txtUserName = findViewById(R.id.txtUserName);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK);
@@ -87,6 +87,11 @@ public class HomeActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray locationsArray = object.getJSONArray("locations");
+                    //get user name
+                    JSONObject user = object.getJSONObject("user");
+                    String userName = user.getString("name");
+                    txtUserName.setText(userName);
+
                     // Lặp qua tất cả các phần tử trong mảng "locations"
                     for (int i = 0; i < locationsArray.length(); i++) {
                         JSONObject location = locationsArray.getJSONObject(i);
@@ -113,6 +118,7 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intent = new Intent(HomeActivity.this, HomeDeviceCateActivity.class);
                         intent.putExtra("roomName", location.getName());
                         intent.putExtra("roomId", location.getId());
+                        intent.putExtra("userName", userName);
                         //send device category string array to HomeDeviceCateActivity
                         intent.putExtra("deviceCategories", deviceCategories);
                         startActivity(intent);
