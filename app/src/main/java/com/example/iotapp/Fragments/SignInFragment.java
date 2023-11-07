@@ -156,6 +156,7 @@ public class SignInFragment extends Fragment {
                     ((AuthActivity) getContext()).finish();
                     //Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
                 } else {
+                    Toast.makeText(getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putBoolean("isLoggedIn",false);

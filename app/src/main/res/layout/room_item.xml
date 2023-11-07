@@ -8,7 +8,10 @@
     android:layout_marginBottom="8dp"
     app:cardElevation="4dp"
     app:cardCornerRadius="20dp"
-    android:id="@+id/main_location_container">
+    android:id="@+id/main_location_container"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    >
 
     <LinearLayout
         android:id="@+id/roomItemLayout"
@@ -22,6 +25,7 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:src="@drawable/room_placeholder"
+            android:layout_gravity="center"
             />
 
         <TextView
@@ -31,15 +35,17 @@
             android:text="return if null"
             android:textSize="16sp"
             android:fontFamily="@font/montserrat_bold"
+            android:layout_gravity="center"
             />
 
         <TextView
             android:id="@+id/deviceNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="return if null"
+            android:text="Device count: null"
             android:textSize="14sp"
             android:fontFamily="@font/montserrat"
+            android:layout_gravity="center"
             />
 
     </LinearLayout>

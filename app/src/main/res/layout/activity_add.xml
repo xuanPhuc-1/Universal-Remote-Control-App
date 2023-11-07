@@ -69,22 +69,41 @@
                 android:onClick="changePhoto"
                 android:fontFamily="@font/montserrat_bold"/>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:id="@+id/txtLayoutMacAddress"
-                android:layout_marginBottom="6dp"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutMacAddress"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtMacAddress"
                     android:hint="MAC Address"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="text"
-                    android:textSize="15sp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnScan">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtMacAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/btnScan"
+                    android:layout_width="50dp"
+                    android:layout_height="53dp"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/shape4"
+                    android:src="@drawable/scan"
+                    app:layout_constraintTop_toTopOf="@+id/txtLayoutMacAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:layout_width="match_parent"

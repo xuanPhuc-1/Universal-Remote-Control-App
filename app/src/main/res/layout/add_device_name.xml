@@ -5,169 +5,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddActivity">
+    tools:context=".AddDeviceActivity">
 
-<!--    <com.google.android.material.appbar.MaterialToolbar-->
-<!--        android:layout_width="match_parent"-->
-<!--        app:title=" "-->
-<!--        android:elevation="1dp"-->
-<!--        android:layout_height="wrap_content">-->
-
-
-<!--        <ImageButton-->
-<!--            android:layout_width="45dp"-->
-<!--            android:src="@drawable/img"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:layout_marginRight="12dp"-->
-<!--            android:onClick="cancelPost"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:scaleType="fitXY"/>-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:text="New Device Name"-->
-<!--            android:textColor="@color/colorBlack"-->
-<!--            android:textSize="18sp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/montserrat_bold"/>-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        app:title=" "
+        android:elevation="1dp"
+        android:layout_height="wrap_content">
 
 
-<!--    </com.google.android.material.appbar.MaterialToolbar>-->
+        <ImageButton
+            android:layout_width="45dp"
+            android:src="@drawable/img"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="12dp"
+            android:onClick="cancelPost"
+            android:layout_height="45dp"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="New Device Name"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"/>
 
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="6dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imgAddDeviceName"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"/>
 
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            android:padding="16dp"-->
-<!--            android:layout_marginTop="6dp">-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set Photo"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:onClick="changePhoto"
+                android:fontFamily="@font/montserrat_bold"/>
 
-
-<!--            <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--                android:id="@+id/imgAddHub"-->
-<!--                android:layout_width="96dp"-->
-<!--                android:layout_height="96dp"-->
-<!--                app:civ_border_width="2dp"-->
-<!--                app:civ_border_color="#FF000000"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:layout_marginBottom="20dp"/>-->
-
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Set Photo"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:onClick="changePhoto"-->
-<!--                android:fontFamily="@font/montserrat_bold"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Device Category"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:fontFamily="@font/montserrat_bold"/>-->
-<!--            <TextView-->
-<!--                android:id="@+id/txtDeviceCategory"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="return if null"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:layout_marginTop="-5dp"-->
-<!--                android:textColor="@color/colorBlack"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:fontFamily="@font/montserrat_bold"-->
-<!--                android:textSize="14dp"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Device Category"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/montserrat_bold"/>
+            <TextView
+                android:id="@+id/txtDeviceCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="return if null"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="-5dp"
+                android:textColor="@color/colorBlack"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="14dp"/>
 
 
 
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Device Name"-->
-<!--                android:layout_marginBottom="-10dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:fontFamily="@font/montserrat_bold"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Device Name"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/montserrat_bold"/>
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:id="@+id/txtLayoutLocation"-->
-<!--                android:layout_marginBottom="6dp"-->
-<!--                android:layout_height="wrap_content">-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/txtLayoutLocation"
+                android:layout_marginBottom="6dp"
+                android:layout_height="wrap_content"/>
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:boxBackgroundMode="outline">-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="outline">
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/txtDeviceName"-->
-<!--                    android:hint="Device Name"-->
-<!--                    android:fontFamily="@font/montserrat"-->
-<!--                    android:inputType="text"-->
-<!--                    android:textSize="15sp"/>-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDeviceName"
+                    android:hint="Device Name"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="text"
+                    android:textSize="15sp"/>
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            </com.google.android.material.textfield.TextInputLayout>
 
-<!--            <Button-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="42dp"-->
-<!--                android:text="Add"-->
-<!--                android:id="@+id/btnAddHub"-->
-<!--                android:backgroundTint="@drawable/btn_round"-->
-<!--                android:textColor="@color/colorWhite"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:textSize="17dp"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:layout_gravity="center_horizontal"/>-->
-<!--            <Button-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="42dp"-->
-<!--                android:text="Logout"-->
-<!--                android:id="@+id/btnLogout"-->
-<!--                android:backgroundTint="@drawable/btn_round"-->
-<!--                android:textColor="@color/colorWhite"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:textSize="17dp"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:layout_gravity="center_horizontal"/>-->
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="42dp"
+                android:text="Add"
+                android:id="@+id/btnAddDeviceName"
+                android:backgroundTint="@drawable/btn_round"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="12dp"
+                android:textSize="17dp"
+                android:textAllCaps="false"
+                android:layout_gravity="center_horizontal"/>
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="42dp"
+                android:text="Logout"
+                android:id="@+id/btnLogout"
+                android:backgroundTint="@drawable/btn_round"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="12dp"
+                android:textSize="17dp"
+                android:textAllCaps="false"
+                android:layout_gravity="center_horizontal"/>
 
-
-<!--        </LinearLayout>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--    </ScrollView>-->
-
-
-
-
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

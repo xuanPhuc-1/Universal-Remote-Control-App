@@ -15,6 +15,10 @@ public class Constant {
 
     public static final String PICK_LOCATION = HOME + "/locations";
 
+    public static final String CREATE_CATEGORY = HOME + "/device_categories/create";
+
+    public static final String CREATE_DEVICE = HOME + "/devices/create";
+
     //public String GET_TEMP_HUMID = "http://iotdomain.giize.com/locations/" + id + "/get_info";
     //public String GET_DEVICES_CATEGORY = "http://iotdomain.giize.com/locations/" + id + "/device_categories";
 

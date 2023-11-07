@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,6 +69,10 @@ public class AddCateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
         setContentView(R.layout.add_device_cate);
         init();
     }
@@ -114,50 +119,52 @@ public class AddCateActivity extends AppCompatActivity {
         dialog.setMessage("Adding");
         dialog.show();
 
-//        StringRequest request = new StringRequest(Request.Method.POST,Constant.ADD_HUB,response -> {
-//
-//            try {
-//                JSONObject object = new JSONObject(response);
-//                if (object.getBoolean("success")){
-//                    Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(AddCateActivity.this,HomeActivity.class));
-//                    finish();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            dialog.dismiss();
-//
-//        },error -> {
-//            error.printStackTrace();
-//            dialog.dismiss();
-//        }){
-//
-//            // add token to header
-//
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                String token = preferences.getString("token","");
-//                HashMap<String,String> map = new HashMap<>();
-//                map.put("Authorization","Bearer "+token);
-//                return map;
-//            }
-//
-//            // add params
-//
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String,String> map = new HashMap<>();
-//                map.put("mac",txtMacAddress.getText().toString().trim());
-//                map.put("location_name",txtLocation.getText().toString().trim());
-//                map.put("photo",bitmapToString(bitmap));
-//                return map;
-//            }
-//        };
-//
-//        RequestQueue queue = Volley.newRequestQueue(AddActivity.this);
-//        queue.add(request);
+        StringRequest request = new StringRequest(Request.Method.POST,Constant.CREATE_CATEGORY,response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")){
+                    Toast.makeText(this, "Device category added successfully", Toast.LENGTH_SHORT).show();
+                    //return HomeDeviceCateActivity
+                    startActivity(new Intent(AddCateActivity.this,HomeActivity.class));
+                    finish();
+                }
+                else {
+                    Toast.makeText(this, "Device category add failed", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            dialog.dismiss();
+
+        },error -> {
+            error.printStackTrace();
+            dialog.dismiss();
+        }){
+
+            // add token to header
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token","");
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+
+            // add params
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("location_name",txtRoomName.getText().toString().trim());
+                //send device category name of the selected item in spinner
+                map.put("device_category_name",spinnerDeviceCategory.getSelectedItem().toString().trim());
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(AddCateActivity.this);
+        queue.add(request);
 
     }
 

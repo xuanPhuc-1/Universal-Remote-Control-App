@@ -6,14 +6,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 import com.example.iotapp.Adapters.LocationAdapter;
+import com.journeyapps.barcodescanner.ScanOptions;
+
 
 public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton fab;
@@ -48,9 +57,14 @@ public class HomeActivity extends AppCompatActivity {
     //declare a string array to store all device category name
     private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
     private TextView txtUserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
         setContentView(R.layout.layout_home);
         init();
     }
@@ -59,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.bottom_nav);
         txtUserName = findViewById(R.id.txtUserName);
+
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK);
@@ -78,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
+
 
     private void getUserLocation() {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -125,9 +141,6 @@ public class HomeActivity extends AppCompatActivity {
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview
-
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

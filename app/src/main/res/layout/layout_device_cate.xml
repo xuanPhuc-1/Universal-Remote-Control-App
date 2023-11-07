@@ -18,11 +18,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello "
+            android:text="IR Remote"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"
-            android:layout_marginLeft="30dp"/>
+            android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:background="@drawable/shape"
@@ -45,23 +45,23 @@
             android:orientation="vertical"
             android:layout_gravity="center">
 
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Room Name"-->
+<!--                android:fontFamily="@font/montserrat_bold"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textColor="@color/colorWhite"-->
+<!--                android:layout_marginLeft="25dp"/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Room Name"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="20sp"
-                android:textColor="@color/colorWhite"
-                android:layout_marginLeft="25dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="15dp"
+                android:textSize="25dp"
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txtRoomName"
                 android:layout_marginLeft="25dp"
-                android:text="Ha Noi" />
+                android:text="Living Room" />
 
         </LinearLayout>
 
@@ -95,11 +95,21 @@
         </LinearLayout>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Device Categories"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="569dp"
-
+        android:layout_marginTop="-15dp"
         android:orientation="vertical"
         android:padding="16dp"
         >
@@ -108,7 +118,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             tools:context=".HomeActivity"
             android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+            android:layout_width="1000dp"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"

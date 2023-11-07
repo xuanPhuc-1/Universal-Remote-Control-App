@@ -2,7 +2,6 @@ package com.example.iotapp;
 
 import static java.security.AccessController.getContext;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,14 +16,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,8 +32,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
+import com.example.iotapp.Objects.DeviceCategory;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 import org.json.JSONException;
@@ -41,22 +41,31 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AddActivity extends AppCompatActivity {
-    private Button btnAddHub;
-    private CircleImageView imgAddHub;
+public class AddDeviceActivity extends AppCompatActivity {
 
-    private Button btnLogout;
-    private EditText txtMacAddress, txtLocation;
     private Bitmap bitmap = null;
+
     private static final  int GALLERY_CHANGE_POST = 3;
-    private ProgressDialog dialog;
+    private CircleImageView imgAddDeviceName;
+
     private SharedPreferences preferences;
-    private ImageButton btnScan;
+    private TextView txtDeviceCategoryName;
+    private ProgressDialog dialog;
+    private TextInputEditText txtDeviceName;
+    private Button btnAddDeviceName;
+    private String deviceCateName;
+
+
+
+
+    //private ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceCategoryNames);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,81 +74,49 @@ public class AddActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.add_device_name);
         init();
     }
 
     private void init() {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        btnAddHub = findViewById(R.id.btnAddHub);
-        imgAddHub = findViewById(R.id.imgAddHub);
-        btnLogout = findViewById(R.id.btnLogout);
-        txtMacAddress = findViewById(R.id.txtMacAddress);
-        txtLocation = findViewById(R.id.txtLocation);
-
-        btnScan = findViewById(R.id.btnScan);
-        btnScan.setOnClickListener(v -> {
-            scanCode();
-        });
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
+        imgAddDeviceName = findViewById(R.id.imgAddDeviceName);
+        imgAddDeviceName.setImageURI(getIntent().getData());
+        txtDeviceCategoryName = findViewById(R.id.txtDeviceCategoryName);
+        deviceCateName = getIntent().getStringExtra("deviceCateName");
+        txtDeviceCategoryName.setText(deviceCateName);
+        txtDeviceName = findViewById(R.id.txtDeviceName);
+        btnAddDeviceName = findViewById(R.id.btnAddDeviceName);
+        btnAddDeviceName.setOnClickListener(v->{
+            Log.d("Device name", txtDeviceName.getText().toString().trim());
+            Log.d("Device cate name", deviceCateName);
+            Toast.makeText(this, "Device name added successfully", Toast.LENGTH_SHORT).show();
+            post();
+        });
 
-        imgAddHub.setImageURI(getIntent().getData());
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        btnAddHub.setOnClickListener(v->{
-            if(!txtMacAddress.getText().toString().isEmpty()){
-                post();
-            }else {
-                Toast.makeText(this, "Mac address is required", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnLogout.setOnClickListener(v->{
-            //validate fields first
-            logout();
-        });
     }
-
-    private void scanCode()
-    {
-        ScanOptions options = new ScanOptions();
-        options.setPrompt("Volume up to flash on");
-        options.setOrientationLocked(true);
-        options.setCaptureActivity(CaptureAct.class);
-        barLaucher.launch(options);
-    }
-
-    ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
-    {
-        if(result.getContents() !=null)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
-            //set the result to the txtMacAddress
-            txtMacAddress.setText(result.getContents());
-        }
-    });
-        
-
     private void post(){
         dialog.setMessage("Adding");
         dialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST,Constant.ADD_HUB,response -> {
+        StringRequest request = new StringRequest(Request.Method.POST,Constant.CREATE_DEVICE,response -> {
 
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
-                    Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddActivity.this,HomeActivity.class));
+                    Toast.makeText(this, "Device added successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AddDeviceActivity.this,HomeActivity.class));
                     finish();
                 }
                 else {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Device name already exists", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -150,6 +127,8 @@ public class AddActivity extends AppCompatActivity {
             error.printStackTrace();
             dialog.dismiss();
         }){
+
+            // add token to header
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 String token = preferences.getString("token","");
@@ -163,24 +142,15 @@ public class AddActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("mac",txtMacAddress.getText().toString().trim());
-                map.put("location_name",txtLocation.getText().toString().trim());
-                map.put("photo",bitmapToString(bitmap));
+                map.put("device_category",deviceCateName);
+                //send device category name of the selected item in spinner
+                map.put("device_name",txtDeviceName.getText().toString().trim());
                 return map;
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(AddActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(AddDeviceActivity.this);
         queue.add(request);
-
-    }
-    private void logout(){
-
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.clear();
-                    editor.apply();
-        startActivity(new Intent(AddActivity.this,AuthActivity.class));
-        finish();
 
     }
 
@@ -211,7 +181,7 @@ public class AddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_CHANGE_POST && resultCode==RESULT_OK){
             Uri imgUri = data.getData();
-            imgAddHub.setImageURI(imgUri);
+            imgAddDeviceName.setImageURI(imgUri);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
             } catch (IOException e) {

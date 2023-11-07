@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
 
     private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
     ArrayList<String> deviceCategoryNames = new ArrayList<>();
-    private TextView txtRoomName, txtUserName,txtTempFromSensor,txtHumidFromSensor;
+    private TextView txtRoomName,txtTempFromSensor,txtHumidFromSensor;
 
     private int humidity, temperature;
 
@@ -58,6 +59,10 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
         setContentView(R.layout.layout_device_cate);
         for (DeviceCategory category : deviceCategories) {
             deviceCategoryNames.add(category.getName());
@@ -81,8 +86,8 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
         add_cate_fab = findViewById(R.id.fab);
         txtRoomName = findViewById(R.id.txtRoomName);
         txtRoomName.setText(locationName);
-        txtUserName = findViewById(R.id.txtUserName);
-        txtUserName.setText(userName);
+
+
         txtTempFromSensor = findViewById(R.id.txtTempFromSensor);
         txtHumidFromSensor = findViewById(R.id.txtHumidFromSensor);
 
