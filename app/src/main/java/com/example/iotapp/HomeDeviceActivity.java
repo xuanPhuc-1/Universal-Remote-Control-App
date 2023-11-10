@@ -119,6 +119,7 @@ public class HomeDeviceActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray DeviceArray = object.getJSONArray("data");
+
                     //get MAC address
                     MAC = object.getString("MAC");
                     //Log.d("MAC", MAC);
@@ -134,10 +135,25 @@ public class HomeDeviceActivity extends AppCompatActivity {
                     }
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
                     adapter = new DeviceAdapter(deviceList, Device -> {
-                        Intent intent = new Intent(HomeDeviceActivity.this, RemoteActivity.class);
-                        intent.putExtra("MAC", MAC);
-                        intent.putExtra("ir_codes", ir_codes);
-                        startActivity(intent);
+                        //if user choose Tivi Category go to RemoteActivity, if user choose Projector Category go to RemoteProjectorActivity
+                        if (deviceCateID.equals("1")) {
+                            Intent intent = new Intent(HomeDeviceActivity.this, RemoteActivity.class);
+                            intent.putExtra("MAC", MAC);
+                            intent.putExtra("ir_codes", ir_codes);
+                            startActivity(intent);
+                        } else if (deviceCateID.equals("3")) {
+                            Intent intent = new Intent(HomeDeviceActivity.this, RemoteProjectorActivity.class);
+                            intent.putExtra("MAC", MAC);
+                            intent.putExtra("ir_codes", ir_codes);
+                            startActivity(intent);
+                        } else if (deviceCateID.equals("2")) {
+                            Intent intent = new Intent(HomeDeviceActivity.this, RemoteProjectorActivity.class);
+                            intent.putExtra("MAC", MAC);
+                            intent.putExtra("ir_codes", ir_codes);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this, "Device Category not found", Toast.LENGTH_SHORT).show();
+                        }
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview
                     recyclerView.setAdapter(adapter); // set adapter cho recyclerview

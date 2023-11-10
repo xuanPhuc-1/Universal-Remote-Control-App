@@ -1,5 +1,5 @@
 package com.example.iotapp.Objects;
-
+import com.example.iotapp.Objects.DeviceCategory;
 public class Device {
     private String name, id;
     //declare a Image variable to store the image

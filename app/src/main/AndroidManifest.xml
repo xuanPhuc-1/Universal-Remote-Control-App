@@ -64,6 +64,9 @@
         <activity
             android:name=".RemoteActivity"
             android:exported="false" />
+        <activity
+            android:name=".RemoteProjectorActivity"
+            android:exported="false" />
         <activity android:name=".CaptureAct"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
