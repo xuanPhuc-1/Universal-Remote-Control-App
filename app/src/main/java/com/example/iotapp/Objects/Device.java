@@ -1,23 +1,71 @@
 package com.example.iotapp.Objects;
-import com.example.iotapp.Objects.DeviceCategory;
-public class Device {
-    private String name, id;
-    //declare a Image variable to store the image
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Device implements Serializable, Parcelable
+{
+    private String id;
+    private String name;
+    private String irCodes;
+    private String deviceCateID;
 
 
-    public Device(String name, String id) {
+    // Các phương thức getter và setter
+    public Device(String name, String id, String deviceCateID, String irCodes) {
         this.name = name;
         this.id = id;
+        this.deviceCateID = deviceCateID;
+        this.irCodes = irCodes;
+    }
+
+    // Phương thức để triển khai Parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(irCodes);
+        dest.writeString(deviceCateID);
+    }
+
+    public static final Creator<Device> CREATOR = new Creator<Device>() {
+        @Override
+        public Device createFromParcel(Parcel in) {
+            return new Device(in);
+        }
+
+        @Override
+        public Device[] newArray(int size) {
+            return new Device[size];
+        }
+    };
+
+    protected Device(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        irCodes = in.readString();
+        deviceCateID = in.readString();
     }
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId() {
+        return id;
     }
 
-    public String  getId() {
-        return id;
+    public String getIrCodes() {
+        return irCodes;
+    }
+
+    public String getDeviceCateID() {
+        return deviceCateID;
     }
 }

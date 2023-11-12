@@ -23,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.iotapp.Adapters.DeviceAdapter;
 import com.example.iotapp.Objects.Device;
 import com.example.iotapp.Objects.Device;
+import com.example.iotapp.Objects.DeviceCategory;
+import com.example.iotapp.Objects.Location;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,7 +44,7 @@ public class HomeDeviceActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
     private DeviceAdapter adapter;
-    private List<Device> deviceList = new ArrayList<>();
+    private List<Device> deviceSupportList = new ArrayList<>();
     public String deviceCateID;
     public String url;
     private static final int GALLERY_ADD_POST = 2;
@@ -50,7 +52,11 @@ public class HomeDeviceActivity extends AppCompatActivity {
     private FloatingActionButton add_cate_fab;
     private String deviceCateName = "";
     private String MAC = "";
-    private String ir_codes = "";
+
+    private ArrayList<Device> devices_support = new ArrayList<>();
+    private List<Device> userDevicesList = new ArrayList<>();
+    ArrayList<String> deviceSupportNames = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +64,12 @@ public class HomeDeviceActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
+
         setContentView(R.layout.layout_device);
+
+
+
+
         if (getIntent().hasExtra("deviceCateID") && getIntent().hasExtra("deviceCateName")) {
             Log.d("Has extra", "Has extra");
             deviceCateID = getIntent().getStringExtra("deviceCateID");
@@ -83,6 +94,8 @@ public class HomeDeviceActivity extends AppCompatActivity {
             i.setType("image/*");
             //send deviceCategory name to AddDeviceActivity
             i.putExtra("deviceCateName", deviceCateName);
+//            i.putExtra("deviceSupport", devices_support);
+
             startActivityForResult(i, GALLERY_ADD_POST);
         });
         navigationView.setOnNavigationItemSelectedListener(item -> {
@@ -106,6 +119,7 @@ public class HomeDeviceActivity extends AppCompatActivity {
             i.setData(imgUri);
             //send deviceCategory name to AddDeviceActivity
             i.putExtra("deviceCateName", deviceCateName);
+            i.putParcelableArrayListExtra("deviceSupport", devices_support);
             //send deviceCategories to AddCateActivity
             startActivity(i);
         }
@@ -118,41 +132,53 @@ public class HomeDeviceActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    JSONArray DeviceArray = object.getJSONArray("data");
-
-                    //get MAC address
-                    MAC = object.getString("MAC");
-                    //Log.d("MAC", MAC);
-                    ir_codes = object.getString("ir_codes");
-                    //Log.d("IR codes", ir_codes);
-                    // Lặp qua tất cả các phần tử trong mảng "locations"
-                    for (int i = 0; i < DeviceArray.length(); i++) {
-                        JSONObject DeviceObj = DeviceArray.getJSONObject(i);
+                    JSONArray DeviceSupportArray = object.getJSONArray("devices_supported");
+                    for (int i = 0; i < DeviceSupportArray.length(); i++) {
+                        JSONObject DeviceObj = DeviceSupportArray.getJSONObject(i);
+                        //Log all devices
+                        Log.d("Device Supported", DeviceObj.getString("name"));
                         String Name = DeviceObj.getString("name");
                         String deviceId = DeviceObj.getString("id");
-                        Device Device = new Device(Name, deviceId);
-                        deviceList.add(Device);
+                        String deviceCateID = DeviceObj.getString("device_category_id");
+                        String ir_codes = DeviceObj.getString("ir_codes");
+                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes);
+                        devices_support.add(Device);
                     }
+                    JSONArray DeviceUserArray = object.getJSONArray("devices_of_user");
+                    for (int i = 0; i < DeviceUserArray.length(); i++) {
+                        JSONObject DeviceUserObj = DeviceUserArray.getJSONObject(i);
+                        //Log all devices
+                        Log.d("Device of User", DeviceUserObj.getString("name"));
+                        String Name = DeviceUserObj.getString("name");
+                        String deviceId = DeviceUserObj.getString("id");
+                        String deviceCateID = DeviceUserObj.getString("device_category_id");
+                        String ir_codes = DeviceUserObj.getString("ir_codes");
+                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes);
+                        userDevicesList.add(Device);
+                    }
+                    MAC = object.getString("MAC");
+
                     //recyclerView.addItemDecoration(new ItemDecoration(10));
-                    adapter = new DeviceAdapter(deviceList, Device -> {
-                        //if user choose Tivi Category go to RemoteActivity, if user choose Projector Category go to RemoteProjectorActivity
-                        if (deviceCateID.equals("1")) {
+                    adapter = new DeviceAdapter(userDevicesList, Device -> {
+                        //if user click on device have device_category_id = 1 go to RemoteActivity
+                        if (Device.getDeviceCateID().equals("1")) {
                             Intent intent = new Intent(HomeDeviceActivity.this, RemoteActivity.class);
+                            intent.putExtra("deviceName", Device.getName());
+                            intent.putExtra("deviceId", Device.getId());
+                            intent.putExtra("deviceCateID", Device.getDeviceCateID());
+                            intent.putExtra("irCodes", Device.getIrCodes());
                             intent.putExtra("MAC", MAC);
-                            intent.putExtra("ir_codes", ir_codes);
                             startActivity(intent);
-                        } else if (deviceCateID.equals("3")) {
+                        }
+                        //if user click on device have device_category_id = 2 go to SensorActivity
+                        else if (Device.getDeviceCateID().equals("3")) {
                             Intent intent = new Intent(HomeDeviceActivity.this, RemoteProjectorActivity.class);
+                            intent.putExtra("deviceName", Device.getName());
+                            intent.putExtra("deviceId", Device.getId());
+                            intent.putExtra("deviceCateID", Device.getDeviceCateID());
+                            intent.putExtra("irCodes", Device.getIrCodes());
                             intent.putExtra("MAC", MAC);
-                            intent.putExtra("ir_codes", ir_codes);
                             startActivity(intent);
-                        } else if (deviceCateID.equals("2")) {
-                            Intent intent = new Intent(HomeDeviceActivity.this, RemoteProjectorActivity.class);
-                            intent.putExtra("MAC", MAC);
-                            intent.putExtra("ir_codes", ir_codes);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(this, "Device Category not found", Toast.LENGTH_SHORT).show();
                         }
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview

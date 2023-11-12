@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="IR Remote"
+            android:text="IR Remote TV"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="20sp"
             android:textColor="@color/colorBlack"

@@ -32,6 +32,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iotapp.Objects.Device;
 import com.example.iotapp.Objects.DeviceCategory;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -57,11 +58,13 @@ public class AddDeviceActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private TextView txtDeviceCategoryName;
     private ProgressDialog dialog;
-    private TextInputEditText txtDeviceName;
+    private Spinner spinnerDeviceName;
     private Button btnAddDeviceName;
     private String deviceCateName;
+    private String deviceName;
 
-
+    private ArrayList<Device> devices = new ArrayList<>();
+    ArrayList<String> deviceNames = new ArrayList<>();
 
 
     //private ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceCategoryNames);
@@ -75,6 +78,7 @@ public class AddDeviceActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
         setContentView(R.layout.add_device_name);
+
         init();
     }
 
@@ -87,14 +91,36 @@ public class AddDeviceActivity extends AppCompatActivity {
         txtDeviceCategoryName = findViewById(R.id.txtDeviceCategoryName);
         deviceCateName = getIntent().getStringExtra("deviceCateName");
         txtDeviceCategoryName.setText(deviceCateName);
-        txtDeviceName = findViewById(R.id.txtDeviceName);
+        spinnerDeviceName = findViewById(R.id.spinnerDeviceName);
         btnAddDeviceName = findViewById(R.id.btnAddDeviceName);
+        devices = getIntent().getParcelableArrayListExtra("deviceSupport");
         btnAddDeviceName.setOnClickListener(v->{
-            Log.d("Device name", txtDeviceName.getText().toString().trim());
-            Log.d("Device cate name", deviceCateName);
-            Toast.makeText(this, "Device name added successfully", Toast.LENGTH_SHORT).show();
+
+            //Log the url of ADD_DEVICE
+            Log.d("URL", Constant.ADD_DEVICE);
+            deviceName = spinnerDeviceName.getSelectedItem().toString().trim();
+            //Log the type of deviceName
+            Log.d("Device name", deviceName);
             post();
         });
+
+        if (devices != null) {
+            //print out the array
+            for (Device deviceCategory : devices) {
+                Log.d("Device Cate info", "Device Category Name: " + deviceCategory.getName() + "\n");
+                Log.d("Device Cate info", "Device Category ID: " + deviceCategory.getId() + "\n");
+            }
+            for (Device category : devices) {
+                deviceNames.add(category.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceNames);
+            spinnerDeviceName.setAdapter(adapter);
+        }
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
@@ -102,20 +128,18 @@ public class AddDeviceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void post(){
+    private void post() {
         dialog.setMessage("Adding");
         dialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST,Constant.CREATE_DEVICE,response -> {
-
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.ADD_DEVICE, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")){
+                if (object.getBoolean("success")) {
                     Toast.makeText(this, "Device added successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddDeviceActivity.this,HomeActivity.class));
+                    startActivity(new Intent(AddDeviceActivity.this, HomeActivity.class));
                     finish();
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Device name already exists", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
@@ -123,36 +147,38 @@ public class AddDeviceActivity extends AppCompatActivity {
             }
             dialog.dismiss();
 
-        },error -> {
+        }, error -> {
+            Toast.makeText(this, "Failed to add device", Toast.LENGTH_SHORT).show();
+            //Return home activity
+            startActivity(new Intent(AddDeviceActivity.this, HomeActivity.class));
             error.printStackTrace();
             dialog.dismiss();
-        }){
+        }) {
 
             // add token to header
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = preferences.getString("token","");
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization","Bearer "+token);
+                String token = preferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
                 return map;
             }
 
             // add params
-
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("device_category",deviceCateName);
-                //send device category name of the selected item in spinner
-                map.put("device_name",txtDeviceName.getText().toString().trim());
+                HashMap<String, String> map = new HashMap<>();
+                // send device category name of the selected item in spinner
+                map.put("device_name", deviceName);
                 return map;
             }
         };
 
         RequestQueue queue = Volley.newRequestQueue(AddDeviceActivity.this);
         queue.add(request);
-
     }
+
+
 
     private String bitmapToString(Bitmap bitmap) {
         if (bitmap!=null){

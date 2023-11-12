@@ -145,7 +145,7 @@
                 app:contentInsetStartWithNavigation="0dp"
                 app:fabAlignmentMode="center"
                 app:fabCradleRoundedCornerRadius="16dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="50dp">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/bottom_nav"
@@ -156,7 +156,7 @@
                     android:outlineSpotShadowColor="@android:color/transparent"
                     app:labelVisibilityMode="unlabeled"
                     app:menu="@menu/menu_main"
-                    android:layout_marginBottom="50dp"/>
+                    android:layout_marginBottom="20dp"/>
 
             </com.google.android.material.bottomappbar.BottomAppBar>
 

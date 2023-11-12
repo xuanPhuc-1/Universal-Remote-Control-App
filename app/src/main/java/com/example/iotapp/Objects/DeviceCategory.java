@@ -9,7 +9,6 @@ public class DeviceCategory implements Serializable, Parcelable
 {
     private String id;
     private String name;
-    private String irCodes;
 
 
     // Các phương thức getter và setter
@@ -28,7 +27,6 @@ public class DeviceCategory implements Serializable, Parcelable
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(name);
-        dest.writeString(irCodes);
     }
 
     public static final Creator<DeviceCategory> CREATOR = new Creator<DeviceCategory>() {
@@ -46,7 +44,6 @@ public class DeviceCategory implements Serializable, Parcelable
     protected DeviceCategory(Parcel in) {
         id = in.readString();
         name = in.readString();
-        irCodes = in.readString();
     }
     public String getName() {
         return name;
@@ -54,9 +51,5 @@ public class DeviceCategory implements Serializable, Parcelable
 
     public String getId() {
         return id;
-    }
-
-    public String getIrCodes() {
-        return irCodes;
     }
 }

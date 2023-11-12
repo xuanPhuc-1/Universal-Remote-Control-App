@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iotapp.Adapters.DeviceCategoryAdapter;
+import com.example.iotapp.Objects.Device;
 import com.example.iotapp.Objects.DeviceCategory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +53,7 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
     private TextView txtRoomName,txtTempFromSensor,txtHumidFromSensor;
 
     private int humidity, temperature;
+    private ArrayList<Device> devices = new ArrayList<>();
 
 
 
@@ -152,6 +154,16 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
                         Log.d("location", Name); // log location
                         Log.d("ID", deviceCateId);
                     }
+                    JSONArray devicesArray = object.getJSONArray("devices"); // Sử dụng optJSONArray thay vì getJSONArray
+                    for (int i = 0; i < devicesArray.length(); i++) {
+                        JSONObject deviceObject = devicesArray.getJSONObject(i);
+                        String id = deviceObject.getString("id");
+                        String name = deviceObject.getString("name");
+                        String deviceCateID = deviceObject.getString("device_category_id");
+                        String ir_codes = deviceObject.getString("ir_codes");
+                        Device device = new Device(name, id, deviceCateID, ir_codes);
+                        devices.add(device);
+                    }
                     for (DeviceCategory deviceCategory : deviceCategoryList) {
                         Log.d("Device Cate info", "Device Category Name: " + deviceCategory.getName() + "\n");
                         Log.d("Device Cate info", "Device Category ID: " + deviceCategory.getId() + "\n");
@@ -161,6 +173,8 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
                         Intent intent = new Intent(HomeDeviceCateActivity.this, HomeDeviceActivity.class);
                         intent.putExtra("deviceCateName", deviceCategory.getName());
                         intent.putExtra("deviceCateID", deviceCategory.getId());
+                        //send device string array to HomeDeviceActivity
+                        intent.putExtra("devices", devices);
                         startActivity(intent);
                     });
                     recyclerView = findViewById(R.id.recyclerView); // tìm recyclerview

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class RemoteActivity extends AppCompatActivity {
     private String MAC = "";
     private String message = "";
     private String ir_code = "";
+    private String deviceCateID = "";
+    private String irProtocol = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,9 @@ public class RemoteActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
         setContentView(R.layout.layout_remote);
-        ir_codes = getIntent().getStringExtra("ir_codes");
+        ir_codes = getIntent().getStringExtra("irCodes");
+        deviceCateID = getIntent().getStringExtra("deviceCateID");
+        Log.d("DeviceCateID",deviceCateID);
         try {
             irJsonObject = new JSONObject(ir_codes);
         } catch (Exception e) {
@@ -99,472 +104,73 @@ public class RemoteActivity extends AppCompatActivity {
         btnRight= findViewById(R.id.btnRight);
         btnOK= findViewById(R.id.btnOK);
     }
-    private void initButtonAction()
-    {
-        btnIO.setOnClickListener(view -> {
+    private void setupButtonClickListener(ImageView button, String key) {
+        button.setOnClickListener(view -> {
             //vibrate when click
             //performHapticFeedback();
             try {
                 JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("pw");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnMute.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("mute");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn1.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("1");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn2.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("2");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn3.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("3");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn4.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("4");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn5.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("5");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn6.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("6");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn7.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code =  object.getString("7");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn8.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code =  object.getString("8");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn9.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("9");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btn0.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("0");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnRed.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("r");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnGreen.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("g");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnYellow.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("y");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnBlue.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("b");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-
-                mqttHandler.publish(topic,message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnGuide.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("guide");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnExit.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("exit");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnBack.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON",object.toString());
-                ir_code =  object.getString("back");
-                Log.d("IRCODE",ir_code);
-                message = "{\"data\":{\"macID\":\""+MAC+"\",\"command\":\""+ir_code+"\"}}";
-                mqttHandler.publish(topic,message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnMenu.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("menu");
+                irProtocol = object.getString("protocol");
+                ir_code = object.getString(key);
                 Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
+                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"remote\":{\"irProtocol\":\"" + irProtocol + "\",\"command\":\"" + ir_code + "\"}}}";
                 mqttHandler.publish(topic, message);
-
             } catch (JSONException e) {
                 e.printStackTrace();
-
-            }
-        });
-        btnVolUp.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("vol+");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnVolDown.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("vol-");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnChUp.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("ch+");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnChDown.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("ch-");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnInfo.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                ir_code = object.getString("i");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnUp.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("up");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnDown.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("down");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnLeft.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("left");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-        btnRight.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("right");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        });
-
-        btnOK.setOnClickListener(view -> {
-            //vibrate when click
-            //performHapticFeedback();
-            try {
-                JSONObject object = new JSONObject(ir_codes);
-                Log.d("IRJSON", object.toString());
-                ir_code = object.getString("ok");
-                Log.d("IRCODE", ir_code);
-                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"command\":\"" + ir_code + "\"}}";
-                mqttHandler.publish(topic, message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
             }
         });
     }
-    private void init() {
+    private void setupTextViewClickListener(TextView button, String key) {
+        button.setOnClickListener(view -> {
+            //vibrate when click
+            //performHapticFeedback();
+            try {
+                JSONObject object = new JSONObject(ir_codes);
+                irProtocol = object.getString("protocol");
+                ir_code = object.getString(key);
+                Log.d("IRCODE", ir_code);
+                message = "{\"data\":{\"macID\":\"" + MAC + "\",\"remote\":{\"irProtocol\":\"" + irProtocol + "\",\"command\":\"" + ir_code + "\"}}}";
+                mqttHandler.publish(topic, message);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void initButtonAction()
+    {
+        setupButtonClickListener(btnIO, "pw");
+        setupButtonClickListener(btnMute, "mute");
+        setupButtonClickListener(btn1, "1");
+        setupButtonClickListener(btn2, "2");
+        setupButtonClickListener(btn3, "3");
+        setupButtonClickListener(btn4, "4");
+        setupButtonClickListener(btn5, "5");
+        setupButtonClickListener(btn6, "6");
+        setupButtonClickListener(btn7, "7");
+        setupButtonClickListener(btn8, "8");
+        setupButtonClickListener(btn9, "9");
+        setupButtonClickListener(btn0, "0");
+        setupButtonClickListener(btnRed, "r");
+        setupButtonClickListener(btnGreen, "g");
+        setupButtonClickListener(btnYellow, "y");
+        setupButtonClickListener(btnBlue, "b");
+        setupTextViewClickListener(btnGuide, "guide");
+        setupTextViewClickListener(btnExit, "exit");
+        setupButtonClickListener(btnBack, "back");
+        setupButtonClickListener(btnMenu, "menu");
+        setupButtonClickListener(btnVolUp, "vol+");
+        setupButtonClickListener(btnVolDown, "vol-");
+        setupButtonClickListener(btnChUp, "ch+");
+        setupButtonClickListener(btnChDown, "ch-");
+        setupButtonClickListener(btnInfo, "i");
+        setupButtonClickListener(btnUp, "up");
+        setupButtonClickListener(btnDown, "down");
+        setupButtonClickListener(btnLeft, "left");
+        setupButtonClickListener(btnRight, "right");
+        setupTextViewClickListener(btnOK, "ok");
+    }
+private void init() {
         mqttHandler = new MqttHandler();
         mqttHandler.connect(BROKER_URL,CLIENT_ID);
     }
