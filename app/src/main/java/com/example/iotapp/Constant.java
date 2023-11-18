@@ -15,7 +15,7 @@ public class Constant {
 
     public static final String PICK_LOCATION = HOME + "/locations";
 
-    public static final String CREATE_CATEGORY = HOME + "/device_categories/create";
+    public static final String CREATE_CATEGORY = HOME + "/device_categories/add";
 
     public static final String ADD_DEVICE = HOME + "/devices/add";
 

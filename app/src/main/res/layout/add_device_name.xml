@@ -45,8 +45,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imgAddDeviceName"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
                 android:layout_gravity="center_horizontal"
@@ -56,22 +56,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Set Photo"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/colorPrimary"
-                android:gravity="center_horizontal"
-                android:onClick="changePhoto"
-                android:fontFamily="@font/montserrat_bold"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Device Category"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center_horizontal"
-                android:fontFamily="@font/montserrat_bold"/>
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="17dp"/>
             <TextView
                 android:id="@+id/txtDeviceCategoryName"
                 android:layout_width="match_parent"
@@ -82,7 +73,7 @@
                 android:textColor="@color/colorBlack"
                 android:gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="14dp"/>
+                android:textSize="17dp"/>
 
 
 
@@ -95,7 +86,8 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center_horizontal"
-                android:fontFamily="@font/montserrat_bold"/>
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="17dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -116,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Select Device"
                     android:fontFamily="@font/montserrat"
-                    android:textSize="15sp"
+                    android:textSize="17dp"
                     android:layout_gravity="center_horizontal"
                     />
 

@@ -90,13 +90,13 @@ public class HomeDeviceActivity extends AppCompatActivity {
         add_cate_fab = findViewById(R.id.fab);
 
         add_cate_fab.setOnClickListener(v -> {
-            Intent i = new Intent(Intent.ACTION_PICK);
-            i.setType("image/*");
+            Intent i = new Intent(HomeDeviceActivity.this, AddDeviceActivity.class);
             //send deviceCategory name to AddDeviceActivity
             i.putExtra("deviceCateName", deviceCateName);
-//            i.putExtra("deviceSupport", devices_support);
+            i.putExtra("deviceSupport", devices_support);
+            //go to AddDeviceActivity
+            startActivity(i);
 
-            startActivityForResult(i, GALLERY_ADD_POST);
         });
         navigationView.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.item_home) {

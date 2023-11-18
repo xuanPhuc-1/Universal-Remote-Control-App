@@ -48,9 +48,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddCateActivity extends AppCompatActivity {
 
-    private Bitmap bitmap = null;
+//    private Bitmap bitmap = null;
     private TextView txtRoomName ;
-    private static final  int GALLERY_CHANGE_POST = 3;
+//    private static final  int GALLERY_CHANGE_POST = 3;
     private CircleImageView imgAddCategory;
     private Button btnAddCategory;
 
@@ -102,11 +102,11 @@ public class AddCateActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceCategoryNames);
             spinnerDeviceCategory.setAdapter(adapter);
         }
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         txtRoomName = findViewById(R.id.txtRoomName);
         txtRoomName.setText(getIntent().getStringExtra("roomName"));
         btnAddCategory.setOnClickListener(v->{
@@ -184,23 +184,23 @@ public class AddCateActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void changePhoto(View view) {
-        Intent i = new Intent(Intent.ACTION_PICK);
-        i.setType("image/*");
-        startActivityForResult(i,GALLERY_CHANGE_POST);
-    }
+//    public void changePhoto(View view) {
+//        Intent i = new Intent(Intent.ACTION_PICK);
+//        i.setType("image/*");
+//        startActivityForResult(i,GALLERY_CHANGE_POST);
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_CHANGE_POST && resultCode==RESULT_OK){
-            Uri imgUri = data.getData();
-            imgAddCategory.setImageURI(imgUri);
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode==GALLERY_CHANGE_POST && resultCode==RESULT_OK){
+//            Uri imgUri = data.getData();
+//            imgAddCategory.setImageURI(imgUri);
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

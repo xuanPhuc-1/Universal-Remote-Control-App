@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 public class HomeDeviceCateActivity extends AppCompatActivity {
-    TextView tRoomName;
     private BottomNavigationView navigationView;
     private ProgressDialog dialog;
     private FloatingActionButton add_cate_fab;
@@ -46,7 +45,7 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
     private List<DeviceCategory> deviceCategoryList = new ArrayList<>();
     public String locationID, locationName,userName ;
     public String url;
-    private static final int GALLERY_ADD_POST = 2;
+//    private static final int GALLERY_ADD_POST = 2;
 
     private ArrayList<DeviceCategory> deviceCategories = new ArrayList<>();
     ArrayList<String> deviceCategoryNames = new ArrayList<>();
@@ -54,8 +53,6 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
 
     private int humidity, temperature;
     private ArrayList<Device> devices = new ArrayList<>();
-
-
 
 
     @Override
@@ -78,7 +75,6 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
         Log.d("Id reveived", locationID);
         url = Constant.PICK_LOCATION + "/" + locationID + "/device_categories";
         Log.d("URL", url);
-
         init();
     }
 
@@ -88,17 +84,17 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
         add_cate_fab = findViewById(R.id.fab);
         txtRoomName = findViewById(R.id.txtRoomName);
         txtRoomName.setText(locationName);
-
-
         txtTempFromSensor = findViewById(R.id.txtTempFromSensor);
         txtHumidFromSensor = findViewById(R.id.txtHumidFromSensor);
 
         add_cate_fab.setOnClickListener(v -> {
-            Intent i = new Intent(Intent.ACTION_PICK);
+
+            Intent i = new Intent(HomeDeviceCateActivity.this, AddCateActivity.class);
+            //send locationID to AddCateActivity
+            i.putExtra("roomName", locationName);
             //send deviceCategories to AddCateActivity
             i.putParcelableArrayListExtra("deviceCategories", deviceCategories);
-            i.setType("image/*");
-            startActivityForResult(i, GALLERY_ADD_POST);
+            startActivity(i);
         });
 
         navigationView.setOnNavigationItemSelectedListener(item -> {
@@ -111,20 +107,20 @@ public class HomeDeviceCateActivity extends AppCompatActivity {
 
         getCateDevices();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_ADD_POST && resultCode == RESULT_OK) {
-            Uri imgUri = data.getData();
-            Intent i = new Intent(HomeDeviceCateActivity.this, AddCateActivity.class);
-            i.setData(imgUri);
-            //send locationID to AddCateActivity
-            i.putExtra("roomName", locationName);
-            //send deviceCategories to AddCateActivity
-            i.putParcelableArrayListExtra("deviceCategories", deviceCategories);
-            startActivity(i);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == GALLERY_ADD_POST && resultCode == RESULT_OK) {
+//            Uri imgUri = data.getData();
+//            Intent i = new Intent(HomeDeviceCateActivity.this, AddCateActivity.class);
+//            i.setData(imgUri);
+//            //send locationID to AddCateActivity
+//            i.putExtra("roomName", locationName);
+//            //send deviceCategories to AddCateActivity
+//            i.putParcelableArrayListExtra("deviceCategories", deviceCategories);
+//            startActivity(i);
+//        }
+//    }
 
     private void getCateDevices()
     {

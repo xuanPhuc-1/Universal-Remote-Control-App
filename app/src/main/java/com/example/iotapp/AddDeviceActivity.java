@@ -50,10 +50,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddDeviceActivity extends AppCompatActivity {
 
-    private Bitmap bitmap = null;
-
-    private static final  int GALLERY_CHANGE_POST = 3;
-    private CircleImageView imgAddDeviceName;
 
     private SharedPreferences preferences;
     private TextView txtDeviceCategoryName;
@@ -66,8 +62,6 @@ public class AddDeviceActivity extends AppCompatActivity {
     private ArrayList<Device> devices = new ArrayList<>();
     ArrayList<String> deviceNames = new ArrayList<>();
 
-
-    //private ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceCategoryNames);
 
 
     @Override
@@ -86,8 +80,6 @@ public class AddDeviceActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
-        imgAddDeviceName = findViewById(R.id.imgAddDeviceName);
-        imgAddDeviceName.setImageURI(getIntent().getData());
         txtDeviceCategoryName = findViewById(R.id.txtDeviceCategoryName);
         deviceCateName = getIntent().getStringExtra("deviceCateName");
         txtDeviceCategoryName.setText(deviceCateName);
@@ -115,17 +107,6 @@ public class AddDeviceActivity extends AppCompatActivity {
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, deviceNames);
             spinnerDeviceName.setAdapter(adapter);
-        }
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),getIntent().getData());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     private void post() {
@@ -169,6 +150,7 @@ public class AddDeviceActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
                 // send device category name of the selected item in spinner
+                map.put("device_category_name", deviceCateName);
                 map.put("device_name", deviceName);
                 return map;
             }
@@ -178,41 +160,7 @@ public class AddDeviceActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
-
-    private String bitmapToString(Bitmap bitmap) {
-        if (bitmap!=null){
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-            byte [] array = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(array,Base64.DEFAULT);
-        }
-
-        return "";
-    }
-
-
     public void cancelPost(View view) {
         super.onBackPressed();
-    }
-
-    public void changePhoto(View view) {
-        Intent i = new Intent(Intent.ACTION_PICK);
-        i.setType("image/*");
-        startActivityForResult(i,GALLERY_CHANGE_POST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_CHANGE_POST && resultCode==RESULT_OK){
-            Uri imgUri = data.getData();
-            imgAddDeviceName.setImageURI(imgUri);
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
