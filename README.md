@@ -1,4 +1,4 @@
-# Mobile App Name
+# Universal Remote Control App
 
 ## Description
 
