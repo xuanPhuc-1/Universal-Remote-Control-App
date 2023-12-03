@@ -38,13 +38,10 @@ import java.util.List;
 import java.util.Map;
 
 public class HomeDeviceActivity extends AppCompatActivity {
-    TextView tRoomName;
-
     private ProgressDialog dialog;
     private SharedPreferences preferences;
     private RecyclerView recyclerView;
     private DeviceAdapter adapter;
-    private List<Device> deviceSupportList = new ArrayList<>();
     public String deviceCateID;
     public String url;
     private static final int GALLERY_ADD_POST = 2;
@@ -55,7 +52,8 @@ public class HomeDeviceActivity extends AppCompatActivity {
 
     private ArrayList<Device> devices_support = new ArrayList<>();
     private List<Device> userDevicesList = new ArrayList<>();
-    ArrayList<String> deviceSupportNames = new ArrayList<>();
+    private TextView txtRoomName,txtTempFromSensor,txtHumidFromSensor, txtLabelDevice;
+    private String roomName, humidity, temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +65,14 @@ public class HomeDeviceActivity extends AppCompatActivity {
 
         setContentView(R.layout.layout_device);
 
-
-
-
         if (getIntent().hasExtra("deviceCateID") && getIntent().hasExtra("deviceCateName")) {
             Log.d("Has extra", "Has extra");
             deviceCateID = getIntent().getStringExtra("deviceCateID");
             deviceCateName = getIntent().getStringExtra("deviceCateName");
+            humidity = getIntent().getStringExtra("humidity");
+            temperature = getIntent().getStringExtra("temperature");
+            roomName = getIntent().getStringExtra("roomName");
+
             Log.d("Id reveived", deviceCateID);
             Log.d("Name reveived", deviceCateName);
             url = Constant.HOME + "/device_categories/" + deviceCateID + "/devices";
@@ -88,6 +87,14 @@ public class HomeDeviceActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.bottom_nav);
         add_cate_fab = findViewById(R.id.fab);
+        txtRoomName = findViewById(R.id.txtRoomName);
+        txtRoomName.setText(roomName);
+        txtTempFromSensor = findViewById(R.id.txtTempFromSensor);
+        txtHumidFromSensor = findViewById(R.id.txtHumidFromSensor);
+        txtTempFromSensor.setText(temperature + "%");
+        txtHumidFromSensor.setText(humidity + "°C");
+        txtLabelDevice = findViewById(R.id.txtLabelDevice);
+
 
         add_cate_fab.setOnClickListener(v -> {
             Intent i = new Intent(HomeDeviceActivity.this, AddDeviceActivity.class);
@@ -132,6 +139,9 @@ public class HomeDeviceActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    if (object.getJSONArray("devices_of_user").length() == 0) {
+                        txtLabelDevice.setText("No device. Please add one!");
+                    }
                     JSONArray DeviceSupportArray = object.getJSONArray("devices_supported");
                     for (int i = 0; i < DeviceSupportArray.length(); i++) {
                         JSONObject DeviceObj = DeviceSupportArray.getJSONObject(i);
@@ -141,7 +151,8 @@ public class HomeDeviceActivity extends AppCompatActivity {
                         String deviceId = DeviceObj.getString("id");
                         String deviceCateID = DeviceObj.getString("device_category_id");
                         String ir_codes = DeviceObj.getString("ir_codes");
-                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes);
+                        String photo = DeviceObj.getString("photo");
+                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes, photo);
                         devices_support.add(Device);
                     }
                     JSONArray DeviceUserArray = object.getJSONArray("devices_of_user");
@@ -153,7 +164,8 @@ public class HomeDeviceActivity extends AppCompatActivity {
                         String deviceId = DeviceUserObj.getString("id");
                         String deviceCateID = DeviceUserObj.getString("device_category_id");
                         String ir_codes = DeviceUserObj.getString("ir_codes");
-                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes);
+                        String photo = DeviceUserObj.getString("photo");
+                        Device Device = new Device(Name, deviceId, deviceCateID, ir_codes, photo);
                         userDevicesList.add(Device);
                     }
                     MAC = object.getString("MAC");
@@ -170,7 +182,7 @@ public class HomeDeviceActivity extends AppCompatActivity {
                             intent.putExtra("MAC", MAC);
                             startActivity(intent);
                         }
-                        //if user click on device have device_category_id = 2 go to SensorActivity
+                        //if user click on device have device_category_id = 2 go to RemoteProjectActivity
                         else if (Device.getDeviceCateID().equals("3")) {
                             Intent intent = new Intent(HomeDeviceActivity.this, RemoteProjectorActivity.class);
                             intent.putExtra("deviceName", Device.getName());

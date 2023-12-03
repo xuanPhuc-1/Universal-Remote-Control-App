@@ -4,15 +4,19 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.iotapp.Constant;
 import com.example.iotapp.Objects.Device;
 import com.example.iotapp.R;
 import com.example.iotapp.Listeners.SelectDeviceListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,6 +39,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) { // set text cho từng item
         Device Device = DeviceList.get(position);
+        if (Device.getPhoto() != null) {
+            Picasso.get().load(Constant.URL + "/storage/devices/" + Device.getPhoto()).into(holder.deviceImage);
+        } else {
+            Toast.makeText(holder.itemView.getContext(), "Photo is null", Toast.LENGTH_SHORT).show();
+        }
         holder.deviceName.setText(Device.getName());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +61,12 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView deviceName;
         public CardView cardView;
+        public ImageView deviceImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             deviceName = itemView.findViewById(R.id.deviceName);
             cardView = itemView.findViewById(R.id.main_device_container);
+            deviceImage = itemView.findViewById(R.id.imgDevice);
         }
     }
 }

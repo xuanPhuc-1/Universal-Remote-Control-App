@@ -50,7 +50,6 @@ public class AddActivity extends AppCompatActivity {
     private Button btnAddHub;
     private CircleImageView imgAddHub;
 
-    private Button btnLogout;
     private EditText txtMacAddress, txtLocation;
     private Bitmap bitmap = null;
     private static final  int GALLERY_CHANGE_POST = 3;
@@ -73,7 +72,6 @@ public class AddActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnAddHub = findViewById(R.id.btnAddHub);
         imgAddHub = findViewById(R.id.imgAddHub);
-        btnLogout = findViewById(R.id.btnLogout);
         txtMacAddress = findViewById(R.id.txtMacAddress);
         txtLocation = findViewById(R.id.txtLocation);
 
@@ -99,10 +97,6 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        btnLogout.setOnClickListener(v->{
-            //validate fields first
-            logout();
-        });
     }
 
     private void scanCode()
@@ -172,15 +166,6 @@ public class AddActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(AddActivity.this);
         queue.add(request);
-
-    }
-    private void logout(){
-
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.clear();
-                    editor.apply();
-        startActivity(new Intent(AddActivity.this,AuthActivity.class));
-        finish();
 
     }
 

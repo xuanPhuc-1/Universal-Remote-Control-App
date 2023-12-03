@@ -21,11 +21,12 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/deviceImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/light"
-            android:layout_gravity="center"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:id="@+id/imgDeviceCate"
+            android:src="@color/colorLightGrey"/>
 
         <TextView
             android:id="@+id/deviceCateName"
@@ -37,15 +38,15 @@
             android:layout_gravity="center"
             />
 
-        <TextView
-            android:id="@+id/deviceCateNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="device count: null"
-            android:textSize="14sp"
-            android:fontFamily="@font/montserrat"
-            android:layout_gravity="center"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/deviceCateNum"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="device count: null"-->
+<!--            android:textSize="14sp"-->
+<!--            android:fontFamily="@font/montserrat"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="180dp"
                 android:fontFamily="@font/montserrat"
-                android:text="30\u2103"
+                android:text="20\u2103"
                 android:textColor="@color/colorWhite"
                 android:textSize="30sp" />
 
@@ -81,18 +81,11 @@
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txtHumid"
                 android:layout_marginLeft="180dp"
-                android:text="40\u0025"
+                android:text="35\u0025"
                 >
             </TextView>
 
         </LinearLayout>
-
-        <!--        <ImageView-->
-        <!--            android:layout_width="15dp"-->
-        <!--            android:layout_height="15dp"-->
-        <!--            android:scaleType="fitCenter"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            android:src="@drawable/celcius"></ImageView>-->
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -103,6 +96,7 @@
         android:textColor="@color/colorBlack"
         android:gravity="center"
         android:layout_marginTop="5dp"
+        android:id="@+id/txtLabelRoom"
         />
     <RelativeLayout
         android:layout_width="match_parent"

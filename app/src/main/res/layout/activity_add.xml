@@ -133,7 +133,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:text="Add"
                 android:id="@+id/btnAddHub"
@@ -143,38 +143,6 @@
                 android:textSize="17dp"
                 android:textAllCaps="false"
                 android:layout_gravity="center_horizontal"/>
-            <Button
-                android:layout_width="150dp"
-                android:layout_height="42dp"
-                android:text="Logout"
-                android:id="@+id/btnLogout"
-                android:backgroundTint="@drawable/btn_round"
-                android:textColor="@color/colorWhite"
-                android:layout_marginTop="12dp"
-                android:textSize="17dp"
-                android:textAllCaps="false"
-                android:layout_gravity="center_horizontal"/>
-
-
         </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </ScrollView>
-
-
-
-
-
 </LinearLayout>

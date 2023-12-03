@@ -119,12 +119,12 @@
                     android:fontFamily="@font/montserrat"
                     android:textSize="17dp"
                     android:layout_gravity="center_horizontal"
-                   />
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:text="Add"
                 android:id="@+id/btnAddCategory"

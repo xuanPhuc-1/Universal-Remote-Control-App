@@ -11,14 +11,16 @@ public class Device implements Serializable, Parcelable
     private String name;
     private String irCodes;
     private String deviceCateID;
+    private String photo;
 
 
     // Các phương thức getter và setter
-    public Device(String name, String id, String deviceCateID, String irCodes) {
+    public Device(String name, String id, String deviceCateID, String irCodes, String photo) {
         this.name = name;
         this.id = id;
         this.deviceCateID = deviceCateID;
         this.irCodes = irCodes;
+        this.photo = photo;
     }
 
     // Phương thức để triển khai Parcelable
@@ -67,5 +69,12 @@ public class Device implements Serializable, Parcelable
 
     public String getDeviceCateID() {
         return deviceCateID;
+    }
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

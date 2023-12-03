@@ -9,12 +9,14 @@ public class DeviceCategory implements Serializable, Parcelable
 {
     private String id;
     private String name;
+    private String photo;
 
 
     // Các phương thức getter và setter
-    public DeviceCategory(String name, String id) {
+    public DeviceCategory(String name, String id, String photo) {
         this.name = name;
         this.id = id;
+        this.photo = photo;
     }
 
     // Phương thức để triển khai Parcelable
@@ -52,4 +54,13 @@ public class DeviceCategory implements Serializable, Parcelable
     public String getId() {
         return id;
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
 }
